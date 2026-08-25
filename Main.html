@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <!-- 사이드바 -->
+      <asdie class="sidebar">
+        <div class="sidebar-logo">
+          <div class="logo-title">Rainbow <span>Holdem</span></div>
+          <div class="logo-sub">Casino</div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="main.html" class="nav-item active">Game</a>
+          <a href="win.html" class="nav-item">Win</a>
+          <a href="skin.html" class="nav-item">Skin</a>
+          <a href="mine.html" class="nav-item">Mine</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="sidebar-logout" id="logout-btn">Logout</button>
+        </div>
+      </asdie>
+
+      <!-- 메인 콘텐츠 -->
+       <main class="content-area">
+        <section class="profile-panel">
+            <img src="" alt="프로필 사진"> <!--프로필 이미지 넣기!-->
+            <div class="profile-nickname" id="nickname-label">불러오는 중...</div>
+
+            <div class="stats-row">
+                <div class="stat-item">
+                    <img src="" alt="승리 트로피"> <!--트로피 이미지 넣기!-->
+                    <span class="stat-value" id="win-count">0</span>
+                </div>
+            </div>
+        </section>
+       </main>
+    </div>
+  </body>
+</html>
