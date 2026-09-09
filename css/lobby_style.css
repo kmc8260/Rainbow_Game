@@ -1,0 +1,217 @@
+.lobby-title {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  align-self: flex-start;
+  margin-bottom: 24px;
+}
+
+.lobby-panel {
+  width: 100%;
+  max-width: 640px;
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  margin-bottom: 24px;
+}
+
+.lobby-panel-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.lobby-panel .field {
+  margin-bottom: 20px;
+}
+
+.lobby-panel .field label {
+  display: block;
+  color: #9a9a9a;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.lobby-panel .field input {
+  width: 100%;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.lobby-panel .field input:focus {
+  border-color: #2ecc55;
+}
+
+.lobby-panel .field input:disabled {
+  color: #8a8a8a;
+  background: #171717;
+  cursor: default;
+}
+
+/* 공개/비밀 토글 */
+
+.visibility-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.toggle-btn {
+  flex: 1;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: #9a9a9a;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.toggle-btn.active {
+  background: #123320;
+  border-color: #2ecc55;
+  color: #2ecc55;
+}
+
+.visibility-desc {
+  color: #7a7a7a;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+/* 코드 입장 */
+
+.code-join-row {
+  display: flex;
+  gap: 10px;
+}
+
+.code-join-row input {
+  flex: 1;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  text-align: center;
+  padding: 12px 14px;
+  outline: none;
+  text-transform: uppercase;
+}
+
+.code-join-row input:focus {
+  border-color: #2ecc55;
+}
+
+.join-code-btn {
+  background-color: #2ecc55;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 24px;
+  cursor: pointer;
+}
+
+.join-code-btn:hover {
+  background-color: #27b34b;
+}
+
+/* 공개방 목록 */
+
+.room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.room-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+.room-row-info .room-row-name {
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.room-row-info .room-row-meta {
+  color: #7a7a7a;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.room-row-join-btn {
+  background: none;
+  border: 1px solid #2ecc55;
+  border-radius: 20px;
+  color: #2ecc55;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 18px;
+  cursor: pointer;
+}
+
+.room-row-join-btn:hover {
+  background-color: #2ecc55;
+  color: #ffffff;
+}
+
+.room-empty-text {
+  color: #7a7a7a;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* 방 생성 완료 후 코드 안내 */
+
+.room-code-reveal {
+  background: #123320;
+  border: 1px solid #2ecc55;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.room-code-reveal .code-label {
+  color: #9a9a9a;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+.room-code-reveal .code-value {
+  color: #2ecc55;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin-top: 6px;
+}

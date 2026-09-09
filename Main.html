@@ -4,43 +4,74 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/main_style.css" />
   </head>
   <body>
     <div class="app-layout">
-      <!-- 사이드바 -->
-      <asdie class="sidebar">
+      <!-- 좌측 사이드바 -->
+      <aside class="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-title">Rainbow <span>Holdem</span></div>
-          <div class="logo-sub">Casino</div>
+          <div class="logo-title">RAINBOW<span>HOLDEM</span></div>
         </div>
 
+        <!-- clas s 오타 수정 -->
         <nav class="sidebar-nav">
           <a href="main.html" class="nav-item active">Game</a>
-          <a href="win.html" class="nav-item">Win</a>
           <a href="skin.html" class="nav-item">Skin</a>
           <a href="mine.html" class="nav-item">Mine</a>
         </nav>
 
         <div class="sidebar-footer">
-            <button class="sidebar-logout" id="logout-btn">Logout</button>
+          <!-- id="logout-btn" 추가 -->
+          <button id="logout-btn" class="sidebar-logout">Logout</button>
         </div>
-      </asdie>
+      </aside>
 
       <!-- 메인 콘텐츠 -->
-       <main class="content-area">
+      <main class="content-area">
         <section class="profile-panel">
-            <img src="" alt="프로필 사진"> <!--프로필 이미지 넣기!-->
-            <div class="profile-nickname" id="nickname-label">불러오는 중...</div>
+          <img
+            class="profile-picture"
+            id="profile-pic"
+            src="assets/프로필.png"
+            alt="프로필 사진"
+          />
+          <div class="profile-nickname" id="nickname-label">불러오는 중...</div>
 
-            <div class="stats-row">
-                <div class="stat-item">
-                    <img src="" alt="승리 트로피"> <!--트로피 이미지 넣기!-->
-                    <span class="stat-value" id="win-count">0</span>
-                </div>
+          <div class="stats-row">
+            <div class="stat-item">
+              <img
+                class="stat-value"
+                src="assets/메인_트로피.png"
+                alt="승리 트로피"
+              />
+              <span class="stat-value" id="win-count">0</span>
             </div>
+          </div>
+          <div class="chip-row">
+            <img class="chip-icon" src="assets/메인_코인_갯수.png" alt="칩" />
+            <span class="chip-total" id="chip-amount">-</span>
+          </div>
         </section>
-       </main>
+        <div class="menu-row">
+          <a href="rouolet.html" class="menu-card">
+            <img class="menu-card-icon" src="assets/룰렛.png" alt="룰렛" />
+            <span class="menu-card-title">Roulette</span>
+          </a>
+          <a href="game.html" class="menu-card">
+            <img
+              class="menu-card-icon"
+              src="assets/메인_게임_아이콘.png"
+              alt="게임"
+            />
+            <span class="menu-card-title">Game</span>
+          </a>
+        </div>
+        <p class="loading-text" id="status-msg"></p>
+      </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="main.js" defer></script>
   </body>
 </html>

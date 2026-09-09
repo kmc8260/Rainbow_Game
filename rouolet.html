@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>룰렛 - RAINBOW HOLD'EM</title>
+    <style>
+      /* 기본 이미지 스타일 및 애니메이션 속도 설정 */
+      .rotate-img {
+        transition: transform 0.5s ease-in-out;
+        cursor: pointer;
+      }
+
+      /* 클릭했을 때 추가될 회전 클래스 */
+
+      .rotated {
+        transform: rotate(360deg);
+      }
+    </style>
+    <link rel="stylesheet" href="globale.css" />
+    <link rel="stylesheet" href="style1.css" />
+  </head>
+
+  <body>
+    <div class="screen">
+      <p class="RAINBOW-HOLD-EM">
+        <span class="text-wrapper">RAINBOW </span
+        ><span class="span">HOLD&#39;EM</span>
+      </p>
+
+      <div class="group">
+        <img class="line" src="img/line-4.svg" alt="" />
+        <div class="div">Casino</div>
+        <img class="img" src="img/line-5.svg" alt="" />
+      </div>
+      <img
+        id="myImage"
+        class="group-2 rotate-img"
+        src="assets/룰렛1.png"
+        alt="룰렛 휠"
+      />
+      <button id="spin-btn">돌리기!</button>
+
+      <img class="frame" src="assets/메인_코인_갯수.png" alt="코인" />
+      <div class="text-wrapper-2" id="chips">100</div>
+
+      <div class="text-wrapper-3" id="tries">1/5</div>
+    </div>
+    <script>
+      // 1. 이미지 요소 가져오기
+      const image = document.getElementById("myImage");
+
+      // 2. 이미지에 클릭 이벤트 리스너 추가
+      image.addEventListener("click", () => {
+        // 3. 'rotated' 클래스를 토글(있으면 제거, 없으면 추가)
+        image.classList.toggle("rotated");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+.screen {
+  background-color: #000000;
+  width: 1440px;
+  height: 1024px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen .RAINBOW-HOLD-EM {
+  position: absolute;
+  top: 14px;
+  left: 15px;
+  font-family: "Alexandria", Helvetica;
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.screen .text-wrapper {
+  color: #ffffff;
+}
+
+.screen .span {
+  color: #198c38;
+}
+
+.screen .group {
+  position: absolute;
+  top: 33px;
+  left: 13px;
+  width: 210px;
+  height: 18px;
+  display: flex;
+}
+
+.screen .line {
+  margin-top: 13.5px;
+  width: 73.79px;
+  height: 1.05px;
+}
+
+.screen .div {
+  width: 48.56px;
+  height: 18px;
+  margin-left: 6.1px;
+  font-family: "Rakkas", Helvetica;
+  font-weight: 400;
+  color: #244f0c;
+  font-size: 16px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.screen .img {
+  margin-top: 14.5px;
+  margin-left: 5.8px;
+  width: 73.79px;
+  height: 1.05px;
+}
+
+.screen .group-2 {
+  position: absolute;
+  width: 92.43%;
+  height: 70.8%;
+  top: 29.2%;
+  left: 7.57%;
+  object-fit: contain;
+}
+
+.screen .text-wrapper-2 {
+  position: absolute;
+  top: 154px;
+  left: 703px;
+  font-family: "Abhaya Libre ExtraBold", Helvetica;
+  font-weight: 400;
+  color: #ffc239;
+  font-size: 128px;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.screen .frame {
+  position: absolute;
+  top: 170px;
+  left: calc(50% - 197px);
+  width: 179px;
+  height: 113px;
+}
+
+.screen .text-wrapper-3 {
+  position: absolute;
+  top: 19px;
+  left: 1230px;
+  font-family: "Abhaya Libre ExtraBold", Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 128px;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
