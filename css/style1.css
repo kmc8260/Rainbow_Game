@@ -11,7 +11,7 @@
   position: absolute;
   top: 14px;
   left: 15px;
-  font-family: "Alexandria", Helvetica;
+  font-family: Georgia, "Times New Roman", serif;
   font-weight: 400;
   font-size: 20px;
   letter-spacing: 0;
@@ -24,7 +24,7 @@
 }
 
 .screen .span {
-  color: #198c38;
+  color: #2ecc55;
 }
 
 .screen .group {
@@ -46,9 +46,9 @@
   width: 48.56px;
   height: 18px;
   margin-left: 6.1px;
-  font-family: "Rakkas", Helvetica;
+  font-family: Georgia, "Times New Roman", serif;
   font-weight: 400;
-  color: #244f0c;
+  color: #8a8a8a;
   font-size: 16px;
   text-align: center;
   letter-spacing: 0;
@@ -74,11 +74,12 @@
 
 .screen .text-wrapper-2 {
   position: absolute;
-  top: 154px;
+  top: 140px;
   left: 703px;
-  font-family: "Abhaya Libre ExtraBold", Helvetica;
-  font-weight: 400;
-  color: #ffc239;
+  /* Georgia는 숫자 높이가 들쭉날쭉해서 숫자에는 쓰지 않는다 */
+  font-family: Arial, sans-serif;
+  font-weight: 600;
+  color: #ffffff;
   font-size: 128px;
   letter-spacing: 0;
   line-height: normal;
@@ -96,9 +97,9 @@
 .screen .text-wrapper-3 {
   position: absolute;
   top: 19px;
-  left: 1230px;
-  font-family: "Abhaya Libre ExtraBold", Helvetica;
-  font-weight: 400;
+  left: 1150px;
+  font-family: Arial, sans-serif;
+  font-weight: 600;
   color: #ffffff;
   font-size: 128px;
   letter-spacing: 0;

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>룰렛 - RAINBOW HOLD'EM</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script defer src="js/roulette-wheel.js"></script>
+    <script defer src="js/roulette-chips.js"></script>
+    <script defer src="js/roulette.js"></script>
+
+    <style>
+      /* 휠 회전 애니메이션 */
+      .rotate-img {
+        transition: transform 2s;
+      }
+
+      /*화살표*/
+      .arrow {
+        position: absolute;
+        top: 300px;
+        left: 774px;
+        transform: translateX(-50%);
+        width: 44px;
+      }
+      /* 돌리기 버튼 */
+      #spin-btn {
+        position: absolute;
+        top: 95px;
+        left: calc(50% - 80px);
+        width: 130px;
+        padding: 12px 0;
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+        color: #ffffff;
+        background-color: #2ecc55;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+    <link rel="stylesheet" href="css/globale.css" />
+    <link rel="stylesheet" href="css/style1.css" />
+  </head>
+
+  <body>
+    <div class="screen">
+      <p class="RAINBOW-HOLD-EM">
+        <span class="text-wrapper">RAINBOW </span
+        ><span class="span">HOLD&#39;EM</span>
+      </p>
+      <img
+        id="wheel"
+        class="group-2 rotate-img"
+        src="assets/룰렛1.png"
+        alt="룰렛 휠"
+      />
+
+      <img class="arrow" src="assets/화살표.png" alt="화살표" />
+      <button id="spin-btn">돌리기</button>
+
+      <img class="frame" src="assets/메인_코인_갯수.png" alt="코인" />
+      <div class="text-wrapper-2" id="chips">0</div>
+
+      <div class="text-wrapper-3" id="try">5/5</div>
+    </div>
+  </body>
+</html>
