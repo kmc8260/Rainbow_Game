@@ -1,0 +1,125 @@
+/* ============================================================
+   style.css
+   로그인(Login.html) / 회원가입(SignUp.html) 전용 스타일.
+   common.css를 먼저 불러온 뒤 사용할 것:
+
+     <link rel="stylesheet" href="css/common.css" />
+     <link rel="stylesheet" href="css/style.css" />
+   ============================================================ */
+
+/* 화면 중앙에 폼을 띄우기 위한 body 레이아웃.
+   로그인/회원가입 페이지의 <body>에 class="center-layout" 추가 */
+body.center-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- 폼 박스 ---------- */
+
+.auth-box {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 32px;
+}
+
+.auth-box h1 {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 64px;
+}
+
+/* ---------- 입력 필드 ---------- */
+
+.field {
+  margin-bottom: 32px;
+}
+
+.field label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.field input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--text-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  padding-bottom: 10px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.field input:focus {
+  border-bottom: 2px solid var(--accent);
+}
+
+/* placeholder 색상도 따로 지정 (기본값은 브라우저마다 다르게 흐릿해서) */
+.field input::placeholder {
+  color: #6a6a6a;
+}
+
+/* ---------- 제출 버튼 ---------- */
+
+.submit-btn {
+  width: 100%;
+  background-color: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 700;
+  padding: 16px 0;
+  margin-top: 24px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.submit-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+.submit-btn:disabled {
+  background-color: var(--accent-disabled);
+  cursor: not-allowed;
+}
+
+/* ---------- 에러 메시지 / 하단 링크 ---------- */
+
+.error-msg {
+  min-height: 18px;
+  color: var(--danger);
+  font-size: 14px;
+  margin-top: 14px;
+}
+
+.switch-link {
+  margin-top: 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.switch-link a {
+  color: var(--accent);
+}
+
+.switch-link a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- 모바일 대응 ---------- */
+
+@media (max-width: 480px) {
+  .auth-box h1 {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+}

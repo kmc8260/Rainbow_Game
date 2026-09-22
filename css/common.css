@@ -1,0 +1,65 @@
+/* ============================================================
+   common.css
+   모든 페이지가 가장 먼저 불러오는 파일.
+   1) 브라우저마다 다른 기본 스타일을 초기화(reset)
+   2) 색상/폰트 같은 디자인 값을 변수로 선언
+   다른 CSS 파일들은 아래 변수를 가져다 쓰기만 함.
+   ============================================================ */
+
+/* ---------- 1. 리셋 ---------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* padding/border가 width에 포함되게 함 (레이아웃 계산 편하게) */
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit; /* 버튼도 body 폰트를 그대로 쓰도록 */
+}
+
+/* ---------- 2. 디자인 변수 ---------- */
+
+:root {
+  /* 폰트 */
+  --font-heading: "Georgia", "Times New Roman", serif; /* 큰 제목용 */
+  --font-body: Arial, Helvetica, sans-serif; /* 본문/입력/버튼용 */
+
+  /* 배경 */
+  --bg-page: #262626;
+
+  /* 텍스트 */
+  --text-primary: #ffffff;
+  --text-secondary: #9a9a9a;
+
+  /* 포인트 컬러 */
+  --accent: #2ecc55;
+  --accent-hover: #27b34b;
+  --accent-disabled: #1e7c37;
+
+  /* 상태 컬러 */
+  --danger: #ff6b6b;
+
+  /* 모서리 둥글기 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}
+
+/* ---------- 3. 기본 body ---------- */
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
