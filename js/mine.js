@@ -1,3 +1,9 @@
+// ============================================================
+// mine.js
+// Mine.html 전용 로직.
+// 계정 정보 표시 + 닉네임 변경 + 로그아웃
+// ============================================================
+
 const accountEmail = document.getElementById("account-email");
 const accountChips = document.getElementById("account-chips");
 const nicknameInput = document.getElementById("nickname-input");
@@ -7,13 +13,14 @@ const logoutBtn = document.getElementById("logout-btn");
 
 let currentUserId = null;
 
-// ---------- 초기화: 계정 정보 불러오기 ----------
+// ---------- 초기화 ----------
+
 async function loadMyPage() {
   const { data: sessionData } = await supabaseClient.auth.getSession();
   const session = sessionData.session;
 
   if (!session) {
-    window.location.href = "login.html";
+    window.location.href = "Login.html";
     return;
   }
 
@@ -27,27 +34,28 @@ async function loadMyPage() {
     .single();
 
   if (error || !profile) {
-    nicknameMsg.textContent = "프로필 정보를 불러오지 못했습니다.";
-    console.error("프로필 로드 에러:", error);
+    nicknameMsg.textContent = "Failed to load profile.";
+    console.error("Profile load error:", error);
     return;
   }
 
   accountChips.value = profile.chips.toLocaleString() + " chips";
-  nicknameInput.placeholder = profile.nickname; // 현재 닉네임을 placeholder로 보여줌
+  nicknameInput.placeholder = profile.nickname;
 }
 
 // ---------- 닉네임 변경 ----------
+
 saveNicknameBtn.addEventListener("click", async () => {
   nicknameMsg.textContent = "";
   const newNickname = nicknameInput.value.trim();
 
   if (newNickname.length < 2) {
-    nicknameMsg.textContent = "닉네임은 2자 이상 입력해주세요.";
+    nicknameMsg.textContent = "Nickname must be at least 2 characters.";
     return;
   }
 
   saveNicknameBtn.disabled = true;
-  saveNicknameBtn.textContent = "변경 중...";
+  saveNicknameBtn.textContent = "Saving...";
 
   const { error } = await supabaseClient
     .from("profiles")
@@ -55,23 +63,25 @@ saveNicknameBtn.addEventListener("click", async () => {
     .eq("id", currentUserId);
 
   saveNicknameBtn.disabled = false;
-  saveNicknameBtn.textContent = "변경하기";
+  saveNicknameBtn.textContent = "Save";
 
   if (error) {
-    nicknameMsg.textContent = "변경 실패: " + error.message;
+    nicknameMsg.style.color = "";
+    nicknameMsg.textContent = "Update failed: " + error.message;
     return;
   }
 
   nicknameMsg.style.color = "#2ecc55";
-  nicknameMsg.textContent = "닉네임이 변경되었습니다.";
+  nicknameMsg.textContent = "Nickname updated.";
   nicknameInput.value = "";
   nicknameInput.placeholder = newNickname;
 });
 
 // ---------- 로그아웃 ----------
+
 logoutBtn.addEventListener("click", async () => {
   await supabaseClient.auth.signOut();
-  window.location.href = "login.html";
+  window.location.href = "Login.html";
 });
 
 loadMyPage();

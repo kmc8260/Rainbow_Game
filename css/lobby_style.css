@@ -1,0 +1,281 @@
+/* ============================================================
+   lobby_style.css
+   game.html(게임 로비), mine.html(마이페이지)이 함께 쓰는 스타일.
+   두 화면 다 "패널 안에 폼이 들어간" 구조라서 공용으로 뺌.
+
+   common.css, main_style.css(사이드바)를 먼저 불러온 뒤 사용할 것:
+     <link rel="stylesheet" href="css/common.css" />
+     <link rel="stylesheet" href="css/main_style.css" />
+     <link rel="stylesheet" href="css/lobby_style.css" />
+   ============================================================ */
+
+/* ---------- 페이지 제목 ---------- */
+
+.lobby-title {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  align-self: flex-start;
+  margin-bottom: 24px;
+}
+
+/* ============================================================
+   패널 (게임 로비의 "방 만들기", 마이페이지의 "계정 정보" 등
+   각 네모 박스 하나하나를 가리킴)
+   ============================================================ */
+
+.lobby-panel {
+  width: 100%;
+  max-width: 600px;
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.lobby-panel-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+/* ---------- 패널 내부 입력 필드 ---------- */
+
+.lobby-panel .field {
+  margin-bottom: 18px;
+}
+
+.lobby-panel .field label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.lobby-panel .field input {
+  width: 100%;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 15px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.lobby-panel .field input:focus {
+  border-color: var(--accent);
+}
+
+/* 읽기 전용 필드 (마이페이지 - 이메일, 보유 칩) */
+.lobby-panel .field input:disabled {
+  color: #8a8a8a;
+  background: #171717;
+  cursor: default;
+}
+
+/* 패널 안에서 쓰는 제출 버튼 (예: 마이페이지 "Save") */
+.lobby-panel .submit-btn {
+  width: 100%;
+  background-color: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.lobby-panel .submit-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+.lobby-panel .submit-btn:disabled {
+  background-color: var(--accent-disabled);
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   공개/비밀 토글 버튼 (게임 로비 - 방 만들기)
+   ============================================================ */
+
+.visibility-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.toggle-btn {
+  flex: 1;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.toggle-btn.active {
+  background: #123320;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.visibility-desc {
+  color: #7a7a7a;
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+
+/* ============================================================
+   비밀방 코드 입력/발급 (게임 로비)
+   ============================================================ */
+
+.code-join-row {
+  display: flex;
+  gap: 10px;
+}
+
+.code-join-row input {
+  flex: 1;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.code-join-row input:focus {
+  border-color: var(--accent);
+}
+
+.join-code-btn {
+  background-color: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 24px;
+  cursor: pointer;
+}
+
+.join-code-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+/* 방 생성 후 코드 노출 박스 */
+.room-code-reveal {
+  background: #123320;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  text-align: center;
+}
+
+.room-code-reveal .code-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.room-code-reveal .code-value {
+  color: var(--accent);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin-top: 6px;
+}
+
+/* ============================================================
+   공개방 목록 (게임 로비)
+   ============================================================ */
+
+.room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.room-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+.room-row-name {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.room-row-meta {
+  color: #7a7a7a;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.room-row-join-btn {
+  background: none;
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 18px;
+  cursor: pointer;
+}
+
+.room-row-join-btn:hover {
+  background-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.room-empty-text {
+  color: #7a7a7a;
+  font-size: 13px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ---------- 공용: 상태 메시지 ---------- */
+
+.loading-text {
+  color: #8a8a8a;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* ============================================================
+   모바일 대응
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .lobby-panel {
+    padding: 18px;
+  }
+
+  .code-join-row {
+    flex-direction: column;
+  }
+
+  .join-code-btn {
+    padding: 12px 0;
+  }
+}

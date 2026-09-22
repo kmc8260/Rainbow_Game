@@ -1,10 +1,9 @@
-/ Mine · HTML
 <!doctype html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mine</title>
+    <title>Mine - Rainbow Holdem</title>
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/main_style.css" />
     <link rel="stylesheet" href="css/lobby_style.css" />
@@ -17,7 +16,7 @@
         </div>
 
         <nav class="sidebar-nav">
-          <a href="main.html" class="nav-item">Game</a>
+          <a href="Main.html" class="nav-item">Game</a>
           <a href="skin.html" class="nav-item">Skin</a>
           <a href="mine.html" class="nav-item active">Mine</a>
         </nav>
@@ -28,38 +27,38 @@
       </aside>
 
       <main class="content-area">
-        <h1 class="lobby-title">마이페이지</h1>
+        <h1 class="lobby-title">Mine</h1>
 
-        <!-- 계정 정보 -->
+        <!-- Account info -->
         <section class="lobby-panel">
-          <h2 class="lobby-panel-title">계정 정보</h2>
+          <h2 class="lobby-panel-title">Account Info</h2>
 
           <div class="field">
-            <label>이메일</label>
+            <label>Email</label>
             <input type="text" id="account-email" disabled />
           </div>
 
           <div class="field">
-            <label>보유 칩</label>
+            <label>Chips</label>
             <input type="text" id="account-chips" disabled />
           </div>
         </section>
 
-        <!-- 닉네임 변경 -->
+        <!-- Change nickname -->
         <section class="lobby-panel">
-          <h2 class="lobby-panel-title">닉네임 변경</h2>
+          <h2 class="lobby-panel-title">Change Nickname</h2>
 
           <div class="field">
-            <label for="nickname-input">새 닉네임</label>
+            <label for="nickname-input">New Nickname</label>
             <input
               type="text"
               id="nickname-input"
-              placeholder="변경할 닉네임을 입력하세요"
+              placeholder="Enter a new nickname"
               maxlength="12"
             />
           </div>
 
-          <button class="submit-btn" id="save-nickname-btn">변경하기</button>
+          <button class="submit-btn" id="save-nickname-btn">Save</button>
           <p class="error-msg" id="nickname-msg"></p>
         </section>
       </main>

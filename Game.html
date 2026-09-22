@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Lobby - Rainbow Holdem</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/main_style.css" />
+    <link rel="stylesheet" href="css/lobby_style.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="logo-title">RAINBOW<span>HOLDEM</span></div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="Main.html" class="nav-item">Game</a>
+          <a href="skin.html" class="nav-item">Skin</a>
+          <a href="mine.html" class="nav-item">Mine</a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="sidebar-logout" id="logout-btn">Logout</button>
+        </div>
+      </aside>
+
+      <main class="content-area">
+        <h1 class="lobby-title">Game Lobby</h1>
+
+        <!-- Create room -->
+        <section class="lobby-panel">
+          <h2 class="lobby-panel-title">Create Room</h2>
+
+          <div class="field">
+            <label for="room-name">Room Name</label>
+            <input
+              type="text"
+              id="room-name"
+              placeholder="Enter a room name"
+              maxlength="20"
+            />
+          </div>
+
+          <div class="visibility-toggle">
+            <button
+              type="button"
+              class="toggle-btn active"
+              data-visibility="public"
+              id="btn-public"
+            >
+              Public
+            </button>
+            <button
+              type="button"
+              class="toggle-btn"
+              data-visibility="private"
+              id="btn-private"
+            >
+              Private
+            </button>
+          </div>
+
+          <p class="visibility-desc" id="visibility-desc">
+            Anyone can join this room directly from the room list.
+          </p>
+
+          <button class="submit-btn" id="create-room-btn">Create Room</button>
+          <p class="error-msg" id="create-error"></p>
+        </section>
+
+        <!-- Join with code -->
+        <section class="lobby-panel">
+          <h2 class="lobby-panel-title">Join Private Room</h2>
+          <div class="code-join-row">
+            <input
+              type="text"
+              id="room-code-input"
+              placeholder="Enter 6-digit code"
+              maxlength="6"
+            />
+            <button class="join-code-btn" id="join-code-btn">Join</button>
+          </div>
+          <p class="error-msg" id="join-error"></p>
+        </section>
+
+        <!-- Public room list -->
+        <section class="lobby-panel">
+          <h2 class="lobby-panel-title">Public Rooms</h2>
+          <div class="room-list" id="room-list">
+            <p class="loading-text">Loading...</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/game.js"></script>
+  </body>
+</html>

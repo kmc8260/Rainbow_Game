@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waiting Room - Rainbow Holdem</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/main_style.css" />
+    <link rel="stylesheet" href="css/lobby_style.css" />
+    <link rel="stylesheet" href="css/room_style.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="logo-title">RAINBOW<span>HOLDEM</span></div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="Main.html" class="nav-item">Game</a>
+          <a href="skin.html" class="nav-item">Skin</a>
+          <a href="mine.html" class="nav-item">Mine</a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="sidebar-logout" id="logout-btn">Logout</button>
+        </div>
+      </aside>
+
+      <main class="content-area">
+        <!-- 방 정보 -->
+        <section class="lobby-panel room-header-panel">
+          <div class="room-header-row">
+            <div>
+              <h1 class="room-name" id="room-name">Loading room...</h1>
+              <p class="room-meta" id="room-meta"></p>
+            </div>
+            <div class="room-code-badge" id="room-code-badge" hidden>
+              <span class="code-label">Room Code</span>
+              <span class="code-value" id="room-code-value"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 참가자 목록 -->
+        <section class="lobby-panel">
+          <h2 class="lobby-panel-title">Players</h2>
+          <div class="player-grid" id="player-grid">
+            <p class="loading-text">Loading players...</p>
+          </div>
+        </section>
+
+        <!-- 컨트롤 -->
+        <section class="room-controls">
+          <button class="submit-btn" id="start-game-btn" hidden>
+            Start Game
+          </button>
+          <p class="waiting-text" id="waiting-text" hidden>
+            Waiting for the host to start the game...
+          </p>
+          <button class="leave-btn" id="leave-room-btn">Leave Room</button>
+          <p class="error-msg" id="room-error"></p>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/room.js"></script>
+  </body>
+</html>
