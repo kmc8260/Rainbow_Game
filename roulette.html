@@ -21,10 +21,17 @@
       .arrow {
         position: absolute;
         top: 300px;
-        left: 774px;
+        left: 720px;
         transform: translateX(-50%);
         width: 44px;
       }
+      /* 뒤로 가기 */
+      .back {
+        position: absolute;
+        bottom: 100px;
+        left: 80px;
+      }
+
       /* 돌리기 버튼 */
       #spin-btn {
         position: absolute;
@@ -60,6 +67,10 @@
 
       <img class="arrow" src="assets/화살표.png" alt="화살표" />
       <button id="spin-btn">돌리기</button>
+
+      <a class="back" href="main.html">
+        <img src="assets/뒤로가기.png" alt="메인" />
+      </a>
 
       <img class="frame" src="assets/메인_코인_갯수.png" alt="코인" />
       <div class="text-wrapper-2" id="chips">0</div>
