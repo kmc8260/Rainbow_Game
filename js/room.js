@@ -1,9 +1,10 @@
 // ============================================================
 // room.js
 // room.html?id=<room_id> 전용 로직.
-// 1) 방 정보 + 참가자 목록 불러오기 (실시간 반영)
-// 2) 호스트만 "Start Game" 가능
-// 3) 나가기 / 로그아웃
+// 1) 방 정보 + 참가자 목록 (실시간 반영)
+// 2) 호스트만 "Start Game" 가능 (deal-cards 함수 호출)
+// 3) 하트비트: 내가 아직 접속해있다는 신호를 주기적으로 보냄
+// 4) 탭을 닫거나 "Leave Room"을 누르면 즉시 퇴장 처리 + 방이 비면 자동 삭제
 // ============================================================
 
 const roomId = new URLSearchParams(window.location.search).get("id");
@@ -21,6 +22,8 @@ const logoutBtn = document.getElementById("logout-btn");
 
 let currentUserId = null;
 let currentRoom = null;
+let accessToken = null;
+let heartbeatTimer = null;
 
 // ============================================================
 // 초기화
@@ -41,10 +44,46 @@ async function initRoom() {
   }
 
   currentUserId = session.user.id;
+  accessToken = session.access_token;
 
   await loadRoom();
   await loadPlayers();
   subscribeToRoomChanges();
+  startHeartbeat();
+  registerLeaveOnClose();
+}
+
+// ============================================================
+// 하트비트: 15초마다 "나 아직 여기 있어요" 신호
+// ============================================================
+
+function startHeartbeat() {
+  const beat = () => {
+    supabaseClient
+      .from("room_players")
+      .update({ last_seen_at: new Date().toISOString() })
+      .eq("room_id", roomId)
+      .eq("user_id", currentUserId);
+  };
+  beat();
+  heartbeatTimer = setInterval(beat, 15000);
+}
+
+// 탭을 닫거나 새로고침해도 최대한 즉시 반영되도록 (완벽히 보장되진 않음 -> 하트비트가 보완)
+function registerLeaveOnClose() {
+  window.addEventListener("pagehide", () => {
+    fetch(
+      `${SUPABASE_URL}/rest/v1/room_players?room_id=eq.${roomId}&user_id=eq.${currentUserId}`,
+      {
+        method: "DELETE",
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${accessToken}`,
+        },
+        keepalive: true,
+      },
+    );
+  });
 }
 
 // ============================================================
@@ -151,7 +190,7 @@ function escapeHtml(str) {
 }
 
 // ============================================================
-// 실시간 반영 (참가자 입/퇴장, 방 상태 변경)
+// 실시간 반영
 // ============================================================
 
 function subscribeToRoomChanges() {
@@ -184,17 +223,16 @@ function subscribeToRoomChanges() {
 }
 
 // ============================================================
-// 게임 시작 (호스트 전용)
+// 게임 시작 (호스트 전용) - 카드 배분은 서버(Edge Function)에서만 처리
 // ============================================================
 
 startGameBtn.addEventListener("click", async () => {
   startGameBtn.disabled = true;
   startGameBtn.textContent = "Starting...";
 
-  const { error } = await supabaseClient
-    .from("game_rooms")
-    .update({ status: "playing" })
-    .eq("id", roomId);
+  const { error } = await supabaseClient.functions.invoke("deal-cards", {
+    body: { room_id: roomId },
+  });
 
   if (error) {
     roomError.textContent = "Failed to start game: " + error.message;
@@ -215,15 +253,22 @@ function goToGameTable() {
 // ============================================================
 
 leaveRoomBtn.addEventListener("click", async () => {
+  clearInterval(heartbeatTimer);
+
   await supabaseClient
     .from("room_players")
     .delete()
     .eq("room_id", roomId)
     .eq("user_id", currentUserId);
+
+  // 방이 비었으면(또는 내가 호스트면) 자동으로 삭제됨 - RLS가 조건을 안 만족하면 그냥 0건 삭제되고 끝남
+  await supabaseClient.from("game_rooms").delete().eq("id", roomId);
+
   window.location.href = "Main.html";
 });
 
 logoutBtn.addEventListener("click", async () => {
+  clearInterval(heartbeatTimer);
   await supabaseClient.auth.signOut();
   window.location.href = "Login.html";
 });

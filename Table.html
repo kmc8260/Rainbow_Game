@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Table - Rainbow Holdem</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/table_style.css" />
+    <link rel="stylesheet" href="css/table_bet.css" />
+  </head>
+  <body class="table-body">
+    <div class="table-page">
+      <header class="table-header">
+        <div class="table-logo">
+          RAINBOW <span>HOLD'EM</span>
+          <div class="table-logo-sub">Casino</div>
+        </div>
+        <div class="table-stats">
+          <div class="round-label">Round <span id="round-number">1</span></div>
+          <div class="chip-total">
+            <img
+              class="chip-icon-sm"
+              src="assets/메인_코인_갯수.png"
+              alt="chips"
+            />
+            <span id="my-chip-total">0</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="felt-table" id="felt-table">
+        <div class="dealer-slots" id="dealer-slots"></div>
+
+        <div class="seat seat-left">
+          <img class="seat-avatar" src="assets/프로필.png" alt="me" />
+          <div class="seat-cards" id="my-card-slots"></div>
+        </div>
+
+        <div class="seat seat-right">
+          <img class="seat-avatar" src="assets/프로필.png" alt="opponent" />
+          <div class="seat-cards" id="opponent-card-slots"></div>
+        </div>
+
+        <div class="pot-pile">
+          <div class="chip-stack chip-blue"></div>
+          <div class="chip-stack chip-red"></div>
+          <div class="chip-stack chip-black"></div>
+          <span class="pot-amount" id="pot-amount"></span>
+        </div>
+
+        <div class="result-overlay" id="result-overlay" hidden>
+          <div class="result-title" id="result-title">You Win!</div>
+          <div class="result-row">
+            <img
+              class="trophy-icon"
+              src="assets/메인_트로피.png"
+              alt="trophy"
+            />
+            <span class="result-round" id="result-round">1</span>
+            <div class="chip-stack chip-blue small"></div>
+            <div class="chip-stack chip-red small"></div>
+            <div class="chip-stack chip-orange small"></div>
+            <span class="result-amount" id="result-amount">0</span>
+          </div>
+        </div>
+
+        <div class="extra-opponents" id="extra-opponents"></div>
+      </div>
+
+      <div class="action-panel" id="action-panel" hidden>
+        <div class="bet-amount-row">
+          <input type="number" id="bet-amount" min="50" step="10" value="50" />
+          <span class="bet-min-label" id="bet-min-label"></span>
+        </div>
+        <button class="action-btn die-btn" id="die-btn">Die</button>
+        <button class="action-btn bet-btn" id="bet-btn">Betting</button>
+        <button class="action-btn allin-btn" id="allin-btn">All in</button>
+      </div>
+
+      <p class="table-status-text" id="table-status-text"></p>
+      <p class="error-msg" id="table-error"></p>
+
+      <div class="table-footer">
+        <button class="submit-btn" id="next-round-btn" hidden>
+          Next Round
+        </button>
+        <button class="leave-btn" id="leave-table-btn">Back to Main</button>
+        <button class="sidebar-logout" id="logout-btn">Logout</button>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/table.js"></script>
+  </body>
+</html>
