@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skin - Rainbow Holdem</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/main_style.css" />
+    <link rel="stylesheet" href="css/skin_style.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="logo-title">RAINBOW<span>HOLDEM</span></div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="Main.html" class="nav-item">Game</a>
+          <a href="skin.html" class="nav-item active">Skin</a>
+          <a href="Mine.html" class="nav-item">Mine</a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="sidebar-logout" id="logout-btn">Logout</button>
+        </div>
+      </aside>
+
+      <main class="content-area">
+        <!-- 제목 + 보유 칩 -->
+        <div class="skin-header">
+          <h1 class="skin-title">Skin</h1>
+
+          <div class="skin-chips">
+            <div class="text-wrapper-2" id="chips">0</div>
+            <img
+              class="skin-chips-icon"
+              src="assets/메인_코인_갯수.png"
+              alt="칩"
+            />
+          </div>
+        </div>
+
+        <!-- 장착 중인 스킨 -->
+        <section class="skin-panel">
+          <h2 class="skin-panel-title">장착 중인 스킨</h2>
+
+          <div class="equipped-row">
+            <div class="equipped-cards" id="equipped-cards"></div>
+            <div class="equipped-name" id="equipped-name">-</div>
+          </div>
+        </section>
+
+        <!-- 스킨 목록 (구매 / 장착) -->
+        <section class="skin-panel">
+          <h2 class="skin-panel-title">상점</h2>
+
+          <div class="skin-grid" id="skin-list"></div>
+          <p class="skin-msg" id="skin-msg"></p>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/skin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+.skin-header {
+  width: 100%;
+  max-width: 1040px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.skin-title {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.skin-chips {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #f4c542;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.chip-total {
+  color: #f4c542;
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.skin-chips-icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+/* ---------- 패널 (Equipped / Shop 박스) ---------- */
+
+.skin-panel {
+  width: 100%;
+  max-width: 1040px;
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.skin-panel-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+/* ============================================================
+   장착 중인 스킨
+   ============================================================ */
+
+.equipped-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.equipped-cards {
+  display: flex;
+  gap: 8px;
+}
+
+.equipped-cards img {
+  width: 180px;
+}
+
+.equipped-name {
+  color: var(--accent);
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* ============================================================
+   스킨 목록
+   ============================================================ */
+
+.skin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.skin-item {
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+}
+
+/* 지금 장착 중인 스킨은 테두리로 표시 */
+.skin-item.equipped {
+  border-color: var(--accent);
+}
+
+.skin-preview {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.skin-preview img {
+  width: 150px;
+}
+
+.skin-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.skin-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #f4c542;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.skin-price img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* 이미 가진 스킨은 가격 대신 "Owned" */
+.skin-price.owned {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.skin-btn {
+  width: 100%;
+  background-color: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 0;
+  margin-top: 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.skin-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+.skin-btn:disabled {
+  background-color: var(--accent-disabled);
+  cursor: default;
+}
+
+/* 구매 실패 등 안내 메시지 */
+.skin-msg {
+  color: var(--danger);
+  font-size: 13px;
+  margin-top: 14px;
+}
+
+/* ============================================================
+   모바일 대응
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .skin-panel {
+    padding: 18px;
+  }
+
+  .equipped-cards img {
+    width: 130px;
+  }
+}
