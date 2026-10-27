@@ -1,0 +1,29 @@
+/* 베팅 금액 입력칸 - table_style.css 뒤에 불러올 것 */
+
+.bet-amount-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bet-amount-row input {
+  flex: 1;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 12px;
+  outline: none;
+}
+
+.bet-amount-row input:focus {
+  border-color: var(--accent);
+}
+
+.bet-min-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+  white-space: nowrap;
+}

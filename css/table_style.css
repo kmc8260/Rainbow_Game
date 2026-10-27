@@ -1,0 +1,411 @@
+/* ============================================================
+   table_style.css
+   table.html 전용. common.css를 먼저 불러온 뒤 사용할 것.
+   테이블 화면은 사이드바 없이 전체화면 구성이라 main_style.css는 불러오지 않음.
+   ============================================================ */
+
+body.table-body {
+  padding: 20px;
+}
+
+.table-page {
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ---------- 상단 헤더 ---------- */
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.table-logo {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.table-logo span {
+  color: var(--accent);
+}
+
+.table-logo-sub {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+.table-stats {
+  text-align: right;
+}
+
+.round-label {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.chip-total {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 6px;
+  color: #f4c542;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.chip-icon-sm {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* ---------- 그린 펠트 테이블 ---------- */
+
+.felt-table {
+  position: relative;
+  background: radial-gradient(ellipse at center, #2e8b4f 0%, #1f6b3a 100%);
+  border-radius: 32px;
+  min-height: 520px;
+  padding: 40px;
+}
+
+/* 딜러 카드 슬롯 (상단 중앙) */
+
+.dealer-slots {
+  display: flex;
+  gap: 0;
+  width: 400px;
+  margin: 0 auto 60px;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dealer-slot {
+  flex: 1;
+  aspect-ratio: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px solid #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.dealer-slot:last-child {
+  border-right: none;
+}
+
+/* ---------- 좌석 (좌/우) ---------- */
+
+.seat {
+  position: absolute;
+  top: 40px;
+  width: 90px;
+}
+
+.seat-left {
+  left: 40px;
+}
+
+.seat-right {
+  right: 40px;
+}
+
+.seat-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  border: 3px solid #d64545;
+  background-color: #e8c46a;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.seat-cards {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.seat-card-slot {
+  aspect-ratio: 3 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.seat-card-slot:last-child {
+  border-bottom: none;
+}
+
+.seat-card-slot.card-selectable {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.seat-card-slot.card-selectable:hover {
+  background: rgba(46, 204, 85, 0.3);
+}
+
+.seat-card-slot.card-opened {
+  background: rgba(46, 204, 85, 0.35);
+}
+
+/* ---------- 팟 ---------- */
+
+.pot-pile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.chip-stack {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 4px dashed rgba(255, 255, 255, 0.5);
+}
+
+.chip-stack.small {
+  width: 30px;
+  height: 30px;
+}
+
+.chip-blue {
+  background: #3a5fd9;
+}
+.chip-red {
+  background: #c0392b;
+}
+.chip-black {
+  background: #1a1a1a;
+}
+.chip-orange {
+  background: #e08a2b;
+}
+
+.pot-amount {
+  color: #f4c542;
+  font-size: 26px;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+/* ---------- 추가 참가자 (3인 이상) ---------- */
+
+.extra-opponents {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.extra-opponent-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ---------- 결과 오버레이 ---------- */
+
+.result-overlay {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  background: rgba(46, 90, 60, 0.85);
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.result-title {
+  font-family: var(--font-heading);
+  font-size: 44px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.result-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.trophy-icon {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.result-round {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.result-amount {
+  color: #f4c542;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+/* ---------- 액션 패널 ---------- */
+
+.action-panel {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 300px;
+  background: rgba(20, 20, 20, 0.9);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action-btn {
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 0;
+  cursor: pointer;
+}
+
+.die-btn {
+  background: #a33636;
+  color: #ffffff;
+}
+
+.die-btn:hover {
+  background: #c0392b;
+}
+
+.bet-btn {
+  background: #f0f0f0;
+  color: #1a1a1a;
+}
+
+.bet-btn:hover {
+  background: #ffffff;
+}
+
+.allin-btn {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.allin-btn:hover {
+  background: var(--accent-hover);
+}
+
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- 하단 상태/버튼 ---------- */
+
+.table-status-text {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.table-footer .leave-btn {
+  background: none;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.table-footer .leave-btn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.table-footer .sidebar-logout {
+  background: none;
+  border: none;
+  color: #6a6a6a;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ---------- 모바일 대응 ---------- */
+
+@media (max-width: 720px) {
+  .felt-table {
+    padding: 60px 16px 30px;
+  }
+
+  .seat {
+    position: static;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px 20px;
+  }
+
+  .seat-left,
+  .seat-right {
+    left: auto;
+    right: auto;
+  }
+
+  .dealer-slots {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .action-panel {
+    position: static;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .result-overlay {
+    width: 90%;
+  }
+}
