@@ -201,12 +201,16 @@ async function renderRoomRow(room) {
     .select("*", { count: "exact", head: true })
     .eq("room_id", room.id);
 
+  const seats = Array.from(
+    { length: room.max_players },
+    (_, i) => `<i class="${i < (count ?? 0) ? "on" : ""}"></i>`,
+  ).join("");
+
   return `
     <div class="room-row">
-      <div>
-        <div class="room-row-name">${escapeHtml(room.room_name)}</div>
-        <div class="room-row-meta">${count ?? 0} / ${room.max_players} players</div>
-      </div>
+      <div class="room-row-name">${escapeHtml(room.room_name)}</div>
+      <div class="room-row-seats">${seats}</div>
+      <div class="room-row-meta">${count ?? 0} / ${room.max_players}</div>
       <button class="room-row-join-btn" data-room-id="${room.id}">Join</button>
     </div>
   `;
@@ -237,7 +241,7 @@ async function joinRoom(roomId) {
 }
 
 function goToRoom(roomId) {
-  window.location.href = `room.html?id=${roomId}`;
+  window.location.href = `Room.html?id=${roomId}`;
 }
 
 function setButtonLoading(button, isLoading, text) {

@@ -26,7 +26,7 @@ async function handleLogin(e) {
   const password = document.getElementById("password").value;
   const btn = document.getElementById("login-btn");
 
-  setLoading(btn, true, "로그인 중...");
+  setLoading(btn, true, "Logging in...");
 
   const { error } = await supabaseClient.auth.signInWithPassword({
     email,
@@ -34,8 +34,8 @@ async function handleLogin(e) {
   });
 
   if (error) {
-    showError("이메일 또는 비밀번호를 확인해주세요.");
-    setLoading(btn, false, "login");
+    showError("Check your email or password.");
+    setLoading(btn, false, "Log In");
     return;
   }
 
@@ -60,11 +60,11 @@ async function handleSignup(e) {
   const btn = document.getElementById("signup-btn");
 
   if (nickname.length < 2) {
-    showError("닉네임은 2자 이상 입력해주세요.");
+    showError("Username must be at least 2 characters.");
     return;
   }
 
-  setLoading(btn, true, "가입 중...");
+  setLoading(btn, true, "Creating...");
 
   // 1) 계정 생성
   const { data, error } = await supabaseClient.auth.signUp({
@@ -86,12 +86,12 @@ async function handleSignup(e) {
   });
 
   if (profileError) {
-    showError("프로필 생성 실패: " + profileError.message);
+    showError("Failed to create profile: " + profileError.message);
     setLoading(btn, false, "Sign Up");
     return;
   }
 
-  alert("회원가입이 완료되었습니다. 로그인 해주세요.");
+  alert("Account created. Please log in.");
   window.location.href = "Login.html";
 }
 

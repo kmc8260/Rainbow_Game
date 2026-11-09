@@ -75,6 +75,7 @@ saveNicknameBtn.addEventListener("click", async () => {
   nicknameMsg.textContent = "Nickname updated.";
   nicknameInput.value = "";
   nicknameInput.placeholder = newNickname;
+  window.refreshProfileLabels();
 });
 
 // ---------- 로그아웃 ----------

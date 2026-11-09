@@ -90,17 +90,18 @@ function renderSkinItem(skin) {
       ${skin.price.toLocaleString()}
     </div>
   `;
-  let button = `<button class="skin-btn" data-type="${skin.type}">구매</button>`;
+  let button = `<button class="skin-btn buy" data-type="${skin.type}">Buy</button>`;
 
   // 가진 스킨: 보유 중 + 장착
   if (isOwned) {
-    price = `<div class="skin-price owned">보유 중</div>`;
-    button = `<button class="skin-btn" data-type="${skin.type}">장착</button>`;
+    price = `<div class="skin-price owned">Owned</div>`;
+    button = `<button class="skin-btn" data-type="${skin.type}">Equip</button>`;
   }
 
   // 장착 중인 스킨: 버튼 잠금
   if (isEquipped) {
-    button = `<button class="skin-btn" disabled>장착 중</button>`;
+    price = `<div class="skin-price owned">In use</div>`;
+    button = `<button class="skin-btn" disabled>Equipped</button>`;
   }
 
   return `
@@ -125,7 +126,7 @@ async function selectSkin(skin) {
     cardType = skin.type;
   } else if (chips < skin.price) {
     // 칩 부족 -> 아무것도 안 한다
-    skinMsg.textContent = "칩이 부족합니다.";
+    skinMsg.textContent = "Not enough chips.";
     return;
   } else {
     // 안 가진 스킨 -> 칩을 내고 사서 바로 장착
@@ -140,6 +141,7 @@ async function selectSkin(skin) {
     .update({ chips: chips, Owned_Types: ownedTypes, Card_Type: cardType })
     .eq("id", userId);
 
+  window.refreshProfileLabels();
   render();
 }
 

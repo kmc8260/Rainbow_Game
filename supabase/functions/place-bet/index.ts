@@ -43,13 +43,16 @@ function scoreHand(playerCards: number[], dealerCards: number[]) {
   return { sum, isRainbow: removed === 0 };
 }
 
-// 선부터 시계방향(좌석 순서)으로 돌면서 폴드 안 한 첫 사람
-function pickFirstActive(players: { user_id: string; is_folded: boolean }[], firstPlayerId: string | null) {
+// 선부터 시계방향(좌석 순서)으로 돌면서 베팅할 수 있는 첫 사람 (폴드/올인 제외)
+function pickFirstActive(
+  players: { user_id: string; is_folded: boolean; is_all_in: boolean }[],
+  firstPlayerId: string | null,
+) {
   const n = players.length;
   const startIdx = Math.max(0, players.findIndex((p) => p.user_id === firstPlayerId));
   for (let i = 0; i < n; i++) {
     const p = players[(startIdx + i) % n];
-    if (!p.is_folded) return p.user_id;
+    if (!p.is_folded && !p.is_all_in) return p.user_id;
   }
   return players[0].user_id;
 }
@@ -205,7 +208,7 @@ Deno.serve(async (req) => {
       await supabaseAdmin.from("profiles").update({ chips: profile.chips - bet }).eq("id", userId);
       await supabaseAdmin
         .from("room_players")
-        .update({ street_bet: bet, acted_this_street: true })
+        .update({ street_bet: bet, acted_this_street: true, is_all_in: profile.chips - bet === 0 })
         .eq("id", myRow.id);
 
       potAfter = room.pot + bet;
@@ -219,7 +222,7 @@ Deno.serve(async (req) => {
     // ---------- 이후 진행 상태 판단 ----------
     const { data: allPlayers } = await supabaseAdmin
       .from("room_players")
-      .select("user_id, seat_order, is_folded, acted_this_street")
+      .select("user_id, seat_order, is_folded, is_all_in, acted_this_street")
       .eq("room_id", room_id)
       .order("seat_order", { ascending: true });
 
@@ -253,7 +256,7 @@ Deno.serve(async (req) => {
     let nextUserId: string | null = null;
     for (let i = 1; i <= players.length; i++) {
       const p = players[(curIdx + i) % players.length];
-      if (!p.is_folded && !p.acted_this_street) {
+      if (!p.is_folded && !p.is_all_in && !p.acted_this_street) {
         nextUserId = p.user_id;
         break;
       }
@@ -278,7 +281,10 @@ Deno.serve(async (req) => {
     const dealerCardsFull: number[] = round?.dealer_cards ?? [];
     const revealed: number[] = room.dealer_revealed_cards ?? [];
 
-    if (revealed.length < 4) {
+    // 베팅할 수 있는 사람이 1명 이하면 남은 카드를 바로 열고 쇼다운으로 감
+    const canStillBet = active.filter((p) => !p.is_all_in).length > 1;
+
+    if (revealed.length < 4 && canStillBet) {
       const nextRevealed = [...revealed, dealerCardsFull[revealed.length]];
 
       await supabaseAdmin
@@ -300,7 +306,7 @@ Deno.serve(async (req) => {
       return jsonResponse({ ok: true, result: "next_street" });
     }
 
-    // 4장 다 오픈됨 -> 쇼다운
+    // 쇼다운
     const { data: hands } = await supabaseAdmin
       .from("player_cards")
       .select("user_id, cards")
@@ -330,7 +336,12 @@ Deno.serve(async (req) => {
 
     await supabaseAdmin
       .from("game_rooms")
-      .update({ round_status: "finished", winner_ids: winners, pot: potAfter })
+      .update({
+        round_status: "finished",
+        winner_ids: winners,
+        pot: potAfter,
+        dealer_revealed_cards: dealerCardsFull,
+      })
       .eq("id", room_id);
 
     return jsonResponse({ ok: true, result: "showdown" });

@@ -1,125 +1,137 @@
-/* ============================================================
-   style.css
-   로그인(Login.html) / 회원가입(SignUp.html) 전용 스타일.
-   common.css를 먼저 불러온 뒤 사용할 것:
+/* 로그인 / 회원가입 화면 */
 
-     <link rel="stylesheet" href="css/common.css" />
-     <link rel="stylesheet" href="css/style.css" />
-   ============================================================ */
+.auth-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 620fr) minmax(0, 660fr);
+  min-height: 100vh;
+}
 
-/* 화면 중앙에 폼을 띄우기 위한 body 레이아웃.
-   로그인/회원가입 페이지의 <body>에 class="center-layout" 추가 */
-body.center-layout {
+.auth-brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 64px;
+  background: var(--felt);
+  overflow: hidden;
+}
+
+.brand-name {
+  font-family: var(--font-heading);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.brand-sub {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+}
+
+.brand-bar {
+  width: 120px;
+  height: 4px;
+  margin-top: 28px;
+  background: var(--rainbow);
+  border-radius: 2px;
+}
+
+.brand-cards {
+  position: relative;
+  align-self: center;
+  width: 360px;
+  height: 260px;
+}
+
+.brand-cards img {
+  position: absolute;
+  top: 10px;
+  left: 110px;
+  width: 150px;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.35));
+}
+
+.brand-cards img:nth-child(1) {
+  left: 12px;
+  top: 28px;
+  transform: rotate(-14deg);
+}
+
+.brand-cards img:nth-child(3) {
+  left: 208px;
+  top: 28px;
+  transform: rotate(14deg);
+}
+
+.brand-copy {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.auth-panel {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 48px 24px;
 }
-
-/* ---------- 폼 박스 ---------- */
 
 .auth-box {
   width: 100%;
-  max-width: 480px;
-  padding: 0 32px;
+  max-width: 380px;
 }
 
 .auth-box h1 {
   font-family: var(--font-heading);
-  font-size: 48px;
+  font-size: 42px;
   font-weight: 700;
-  margin-bottom: 64px;
 }
 
-/* ---------- 입력 필드 ---------- */
-
-.field {
+.auth-sub {
+  margin-top: 8px;
   margin-bottom: 32px;
-}
-
-.field label {
-  display: block;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 10px;
 }
 
-.field input {
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-box .submit-btn {
   width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--text-primary);
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  font-size: 16px;
-  padding-bottom: 10px;
-  outline: none;
-  transition: border-color 0.15s ease;
-}
-
-.field input:focus {
-  border-bottom: 2px solid var(--accent);
-}
-
-/* placeholder 색상도 따로 지정 (기본값은 브라우저마다 다르게 흐릿해서) */
-.field input::placeholder {
-  color: #6a6a6a;
-}
-
-/* ---------- 제출 버튼 ---------- */
-
-.submit-btn {
-  width: 100%;
-  background-color: var(--accent);
-  border: none;
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  font-size: 17px;
-  font-weight: 700;
-  padding: 16px 0;
-  margin-top: 24px;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-
-.submit-btn:hover {
-  background-color: var(--accent-hover);
-}
-
-.submit-btn:disabled {
-  background-color: var(--accent-disabled);
-  cursor: not-allowed;
-}
-
-/* ---------- 에러 메시지 / 하단 링크 ---------- */
-
-.error-msg {
-  min-height: 18px;
-  color: var(--danger);
-  font-size: 14px;
-  margin-top: 14px;
 }
 
 .switch-link {
-  margin-top: 20px;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: 14px;
 }
 
 .switch-link a {
   color: var(--accent);
+  font-weight: 600;
 }
 
-.switch-link a:hover {
-  text-decoration: underline;
-}
+@media (max-width: 860px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
 
-/* ---------- 모바일 대응 ---------- */
+  .auth-brand {
+    padding: 32px 24px;
+  }
 
-@media (max-width: 480px) {
-  .auth-box h1 {
-    font-size: 36px;
-    margin-bottom: 40px;
+  .brand-cards,
+  .brand-copy {
+    display: none;
+  }
+
+  .brand-name {
+    font-size: 44px;
   }
 }

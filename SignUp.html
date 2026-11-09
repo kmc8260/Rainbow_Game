@@ -3,54 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>회원가입</title>
+    <title>Sign Up - Rainbow Hold'em</title>
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body class="center-layout">
-    <div class="auth-box">
-      <h1>SignUp</h1>
-      <form id="signup-form">
-        <div class="field">
-          <label for="nickname">Username</label>
-          <input
-            type="text"
-            id="nickname"
-            placeholder="Enter your Username"
-            required
-          />
+  <body>
+    <div class="auth-layout">
+      <aside class="auth-brand">
+        <div>
+          <div class="brand-name">Rainbow</div>
+          <div class="brand-sub">HOLD'EM</div>
+          <div class="brand-bar"></div>
         </div>
-
-        <div class="field">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your Email"
-            required
-          />
+        <div class="brand-cards">
+          <img src="assets/card/숫자/Card 3.png" alt="" />
+          <img src="assets/card/winter/Card Back.png" alt="" />
+          <img src="assets/card/숫자/Card 9.png" alt="" />
         </div>
-
-        <div class="field">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your Password"
-            required
-          />
-        </div>
-
-        <button type="submit" class="submit-btn" id="signup-btn">
-          Sign Up
-        </button>
-        <p class="error-msg" id="error-msg"></p>
-        <p class="switch-link">
-          Already have an account? <a href="Login.html">Login</a>
+        <p class="brand-copy">
+          Three in your hand. Four from the dealer.<br />No match makes a
+          Rainbow.
         </p>
-      </form>
-    </div>
+      </aside>
 
+      <main class="auth-panel">
+        <div class="auth-box">
+          <h1>Create account</h1>
+          <p class="auth-sub">Start with 1,000 chips.</p>
+          <form id="signup-form">
+            <div class="field">
+              <label for="nickname">Username</label>
+              <input type="text" id="nickname" placeholder="Your table name" required />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="you@example.com" required />
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="At least 6 characters" required />
+            </div>
+            <button type="submit" class="submit-btn" id="signup-btn">Sign Up</button>
+            <p class="error-msg" id="error-msg"></p>
+            <p class="switch-link">
+              Already have an account? <a href="Login.html">Log in</a>
+            </p>
+          </form>
+        </div>
+      </main>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>

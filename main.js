@@ -17,7 +17,7 @@ async function loadMainScreen() {
 
   const profile = await fetchProfile(session.user.id);
   if (!profile) {
-    statusMsg.textContent = "프로필 정보를 불러오지 못했습니다.";
+    statusMsg.textContent = "Failed to load your profile.";
     return;
   }
 

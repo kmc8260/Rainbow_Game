@@ -3,75 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main</title>
+    <title>Main - Rainbow Hold'em</title>
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/main_style.css" />
   </head>
   <body>
     <div class="app-layout">
-      <!-- 좌측 사이드바 -->
       <aside class="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-title">RAINBOW<span>HOLDEM</span></div>
+          <div class="logo-title">Rainbow</div>
+          <div class="logo-sub">HOLD'EM</div>
         </div>
+        <div class="sidebar-bar"></div>
 
         <nav class="sidebar-nav">
-          <a href="main.html" class="nav-item active">Game</a>
-          <a href="skin.html" class="nav-item">Skin</a>
-          <a href="mine.html" class="nav-item">Mine</a>
+          <a href="Main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7l9-3 5 15-9 3z"/><path d="M15 5h3l3 3-3 11"/></svg>
+            Game
+          </a>
+          <a href="skin.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>
+            Skin
+          </a>
+          <a href="Mine.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg>
+            Mine
+          </a>
         </nav>
 
         <div class="sidebar-footer">
-          <!-- id="logout-btn" 추가 -->
-          <button id="logout-btn" class="sidebar-logout">Logout</button>
+          <div class="sidebar-account">
+            <img src="assets/프로필.png" alt="" />
+            <div class="sidebar-account-text">
+              <div class="sidebar-name" data-profile-name>-</div>
+              <div class="sidebar-chips"><span data-profile-chips>-</span> chips</div>
+            </div>
+          </div>
+          <button class="sidebar-logout" id="logout-btn">Logout</button>
         </div>
       </aside>
 
-      <!-- 메인 콘텐츠 -->
       <main class="content-area">
-        <section class="profile-panel">
-          <img
-            class="profile-picture"
-            id="profile-pic"
-            src="assets/프로필.png"
-            alt="프로필 사진"
-          />
-          <div class="profile-nickname" id="nickname-label">불러오는 중...</div>
+        <h1 class="main-title">Welcome back, <span id="nickname-label">...</span></h1>
 
-          <div class="stats-row">
-            <div class="stat-item">
-              <img
-                class="stat-value"
-                src="assets/메인_트로피.png"
-                alt="승리 트로피"
-              />
-              <span class="stat-value" id="win-count">0</span>
+        <section class="stats-row">
+          <a class="stat-tile" href="Mine.html">
+            <img class="profile-picture" id="profile-pic" src="assets/프로필.png" alt="Profile" />
+            <div class="stat-text">
+              <div class="stat-value" data-profile-name>-</div>
+              <div class="stat-label">View profile</div>
+            </div>
+          </a>
+          <div class="stat-tile">
+            <img src="assets/메인_트로피.png" alt="Wins" />
+            <div class="stat-text">
+              <div class="stat-value" id="win-count">0</div>
+              <div class="stat-label">Wins</div>
             </div>
           </div>
-          <div class="chip-row">
-            <img class="chip-icon" src="assets/메인_코인_갯수.png" alt="칩" />
-            <span class="chip-total" id="chip-amount">-</span>
+          <div class="stat-tile">
+            <img src="assets/메인_코인_갯수.png" alt="Chips" />
+            <div class="stat-text">
+              <div class="stat-value" id="chip-amount">-</div>
+              <div class="stat-label">Chips</div>
+            </div>
           </div>
         </section>
+
         <div class="menu-row">
-          <a href="roulette.html" class="menu-card">
-            <img class="menu-card-icon" src="assets/룰렛.png" alt="룰렛" />
-            <span class="menu-card-title">Roulette</span>
+          <a href="Game.html" class="mode-card mode-game">
+            <span class="mode-title">Game</span>
+            <span class="mode-sub">Create a room or join a table.</span>
+            <span class="btn btn-primary">Play</span>
+            <span class="mode-cards">
+              <img src="assets/card/숫자/Card 2.png" alt="" />
+              <img src="assets/card/숫자/Card 5.png" alt="" />
+              <img src="assets/card/winter/Card Back.png" alt="" />
+            </span>
           </a>
-          <a href="game.html" class="menu-card">
-            <img
-              class="menu-card-icon"
-              src="assets/메인_게임_아이콘.png"
-              alt="게임"
-            />
-            <span class="menu-card-title">Game</span>
+          <a href="roulette.html" class="mode-card mode-roulette">
+            <span class="mode-title">Roulette</span>
+            <span class="mode-sub">Up to 5 spins a day.</span>
+            <span class="btn btn-gold">Spin</span>
+            <img class="mode-wheel" src="assets/룰렛1.png" alt="" />
           </a>
         </div>
-        <p class="loading-text" id="status-msg"></p>
+        <p class="status-msg" id="status-msg"></p>
       </main>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
+    <script src="js/sidebar.js"></script>
     <script src="main.js"></script>
   </body>
 </html>

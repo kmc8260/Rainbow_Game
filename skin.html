@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skin - Rainbow Holdem</title>
+    <title>Skin - Rainbow Hold'em</title>
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/main_style.css" />
     <link rel="stylesheet" href="css/skin_style.css" />
@@ -12,57 +12,58 @@
     <div class="app-layout">
       <aside class="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-title">RAINBOW<span>HOLDEM</span></div>
+          <div class="logo-title">Rainbow</div>
+          <div class="logo-sub">HOLD'EM</div>
         </div>
+        <div class="sidebar-bar"></div>
 
         <nav class="sidebar-nav">
-          <a href="Main.html" class="nav-item">Game</a>
-          <a href="skin.html" class="nav-item active">Skin</a>
-          <a href="Mine.html" class="nav-item">Mine</a>
+          <a href="Main.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7l9-3 5 15-9 3z"/><path d="M15 5h3l3 3-3 11"/></svg>
+            Game
+          </a>
+          <a href="skin.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>
+            Skin
+          </a>
+          <a href="Mine.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg>
+            Mine
+          </a>
         </nav>
 
         <div class="sidebar-footer">
+          <div class="sidebar-account">
+            <img src="assets/프로필.png" alt="" />
+            <div class="sidebar-account-text">
+              <div class="sidebar-name" data-profile-name>-</div>
+              <div class="sidebar-chips"><span data-profile-chips>-</span> chips</div>
+            </div>
+          </div>
           <button class="sidebar-logout" id="logout-btn">Logout</button>
         </div>
       </aside>
 
       <main class="content-area">
-        <!-- 제목 + 보유 칩 -->
-        <div class="skin-header">
-          <h1 class="skin-title">Skin</h1>
+        <div class="page-head">
+          <h1 class="page-title">Skin</h1>
+          <div class="chip-badge"><img src="assets/메인_코인_갯수.png" alt="Chips" /><span id="chips">0</span></div>
+        </div>
+        <p class="skin-intro">Pick the deck you play with.</p>
 
-          <div class="skin-chips">
-            <div class="text-wrapper-2" id="chips">0</div>
-            <img
-              class="skin-chips-icon"
-              src="assets/메인_코인_갯수.png"
-              alt="칩"
-            />
-          </div>
+        <div hidden>
+          <div id="equipped-cards"></div>
+          <div id="equipped-name"></div>
         </div>
 
-        <!-- 장착 중인 스킨 -->
-        <section class="skin-panel">
-          <h2 class="skin-panel-title">장착 중인 스킨</h2>
-
-          <div class="equipped-row">
-            <div class="equipped-cards" id="equipped-cards"></div>
-            <div class="equipped-name" id="equipped-name">-</div>
-          </div>
-        </section>
-
-        <!-- 스킨 목록 (구매 / 장착) -->
-        <section class="skin-panel">
-          <h2 class="skin-panel-title">상점</h2>
-
-          <div class="skin-grid" id="skin-list"></div>
-          <p class="skin-msg" id="skin-msg"></p>
-        </section>
+        <div class="skin-grid" id="skin-list"></div>
+        <p class="skin-msg" id="skin-msg"></p>
       </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
+    <script src="js/sidebar.js"></script>
     <script src="js/skin.js"></script>
   </body>
 </html>

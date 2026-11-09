@@ -3,43 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>로그인</title>
+    <title>Log In - Rainbow Hold'em</title>
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body class="center-layout">
-    <div class="auth-box">
-      <h1>LogIn</h1>
-
-      <form id="login-form">
-        <div class="field">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your Email"
-            required
-          />
+  <body>
+    <div class="auth-layout">
+      <aside class="auth-brand">
+        <div>
+          <div class="brand-name">Rainbow</div>
+          <div class="brand-sub">HOLD'EM</div>
+          <div class="brand-bar"></div>
         </div>
-
-        <div class="field">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your Password"
-            required
-          />
+        <div class="brand-cards">
+          <img src="assets/card/숫자/Card 3.png" alt="" />
+          <img src="assets/card/winter/Card Back.png" alt="" />
+          <img src="assets/card/숫자/Card 9.png" alt="" />
         </div>
-
-        <button type="submit" class="submit-btn" id="login-btn">login</button>
-        <p class="error-msg" id="error-msg"></p>
-        <p class="switch-link">
-          Don't have an account? <a href="signup.html">Sign up</a>
+        <p class="brand-copy">
+          Three in your hand. Four from the dealer.<br />No match makes a
+          Rainbow.
         </p>
-      </form>
-    </div>
+      </aside>
 
+      <main class="auth-panel">
+        <div class="auth-box">
+          <h1>Welcome back</h1>
+          <p class="auth-sub">Log in to take your seat.</p>
+          <form id="login-form">
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="you@example.com" required />
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="Enter your password" required />
+            </div>
+            <button type="submit" class="submit-btn" id="login-btn">Log In</button>
+            <p class="error-msg" id="error-msg"></p>
+            <p class="switch-link">
+              Don't have an account? <a href="SignUp.html">Sign up</a>
+            </p>
+          </form>
+        </div>
+      </main>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>

@@ -4,7 +4,7 @@
 // 1) 방 정보 + 참가자 목록 (실시간 반영)
 // 2) 호스트만 "Start Game" 가능 (deal-cards 함수 호출)
 // 3) 하트비트: 내가 아직 접속해있다는 신호를 주기적으로 보냄
-// 4) 탭을 닫거나 "Leave Room"을 누르면 즉시 퇴장 처리 + 방이 비면 자동 삭제
+// 4) "Leave Room"을 누르면 즉시 퇴장 처리 + 방이 비면 자동 삭제
 // ============================================================
 
 const roomId = new URLSearchParams(window.location.search).get("id");
@@ -22,7 +22,6 @@ const logoutBtn = document.getElementById("logout-btn");
 
 let currentUserId = null;
 let currentRoom = null;
-let accessToken = null;
 let heartbeatTimer = null;
 
 // ============================================================
@@ -44,13 +43,11 @@ async function initRoom() {
   }
 
   currentUserId = session.user.id;
-  accessToken = session.access_token;
 
   await loadRoom();
   await loadPlayers();
   subscribeToRoomChanges();
   startHeartbeat();
-  registerLeaveOnClose();
 }
 
 // ============================================================
@@ -63,27 +60,13 @@ function startHeartbeat() {
       .from("room_players")
       .update({ last_seen_at: new Date().toISOString() })
       .eq("room_id", roomId)
-      .eq("user_id", currentUserId);
+      .eq("user_id", currentUserId)
+      .then(({ error }) => {
+        if (error) console.warn("Heartbeat failed:", error.message);
+      }); // Supabase 쿼리는 then/await를 붙여야 실제로 전송됨
   };
   beat();
   heartbeatTimer = setInterval(beat, 15000);
-}
-
-// 탭을 닫거나 새로고침해도 최대한 즉시 반영되도록 (완벽히 보장되진 않음 -> 하트비트가 보완)
-function registerLeaveOnClose() {
-  window.addEventListener("pagehide", () => {
-    fetch(
-      `${SUPABASE_URL}/rest/v1/room_players?room_id=eq.${roomId}&user_id=eq.${currentUserId}`,
-      {
-        method: "DELETE",
-        headers: {
-          apikey: SUPABASE_ANON_KEY,
-          Authorization: `Bearer ${accessToken}`,
-        },
-        keepalive: true,
-      },
-    );
-  });
 }
 
 // ============================================================
@@ -147,18 +130,23 @@ function renderPlayers(players) {
     const isHost = currentRoom && p.user_id === currentRoom.host_id;
     return `
       <div class="player-card ${isHost ? "is-host" : ""}">
-        <div class="player-avatar">${nickname.charAt(0).toUpperCase()}</div>
+        <img class="player-avatar" src="assets/프로필.png" alt="" />
         <div class="player-name">${escapeHtml(nickname)}</div>
         <div class="player-role">${isHost ? "Host" : "Player"}</div>
       </div>
     `;
   });
 
+  if (currentRoom) {
+    const kind = currentRoom.is_private ? "Private room" : "Public room";
+    roomMetaEl.textContent = `${kind}  ·  ${players.length} of ${maxSlots} seated`;
+  }
+
   const emptySlots = Math.max(0, maxSlots - players.length);
   for (let i = 0; i < emptySlots; i++) {
     cards.push(`
       <div class="player-card player-slot empty">
-        <div class="player-name">Empty</div>
+        <div class="player-name">Open seat</div>
       </div>
     `);
   }
@@ -235,7 +223,12 @@ startGameBtn.addEventListener("click", async () => {
   });
 
   if (error) {
-    roomError.textContent = "Failed to start game: " + error.message;
+    let message = error.message;
+    try {
+      const body = await error.context.json();
+      if (body?.error) message = body.error;
+    } catch (_) {}
+    roomError.textContent = "Failed to start game: " + message;
     startGameBtn.disabled = false;
     startGameBtn.textContent = "Start Game";
     return;
@@ -245,7 +238,7 @@ startGameBtn.addEventListener("click", async () => {
 });
 
 function goToGameTable() {
-  window.location.href = `table.html?id=${roomId}`;
+  window.location.href = `Table.html?id=${roomId}`;
 }
 
 // ============================================================

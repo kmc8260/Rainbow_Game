@@ -47,15 +47,59 @@ Deno.serve(async (req) => {
       return jsonResponse({ error: "room_id is required" }, 400);
     }
 
+    // 요청한 사람이 이 방의 호스트인지 서버에서 확인
+    const token = (req.headers.get("Authorization") ?? "").replace("Bearer ", "");
+    const { data: userData, error: userError } = await supabaseAdmin.auth.getUser(token);
+    if (userError || !userData.user) {
+      return jsonResponse({ error: "Not authenticated" }, 401);
+    }
+
+    const { data: room, error: roomLoadError } = await supabaseAdmin
+      .from("game_rooms")
+      .select("host_id, status, round_status")
+      .eq("id", room_id)
+      .single();
+
+    if (roomLoadError || !room) {
+      return jsonResponse({ error: "Room not found." }, 404);
+    }
+    if (room.host_id !== userData.user.id) {
+      return jsonResponse({ error: "Only the host can deal cards." }, 403);
+    }
+    if (room.status === "playing" && ["opening", "betting"].includes(room.round_status)) {
+      return jsonResponse({ error: "A round is already in progress." }, 409);
+    }
+
     const { data: players, error: playersError } = await supabaseAdmin
       .from("room_players")
       .select("user_id")
       .eq("room_id", room_id)
-      .order("seat_order", { ascending: true });
+      .order("joined_at", { ascending: true });
 
     if (playersError || !players || players.length < 2) {
       return jsonResponse({ error: "At least 2 players are required." }, 400);
     }
+
+    const { data: profiles } = await supabaseAdmin
+      .from("profiles")
+      .select("id, nickname, chips")
+      .in("id", players.map((p) => p.user_id));
+
+    const broke = (profiles ?? []).filter((p) => p.chips <= 0).map((p) => p.nickname);
+    if (broke.length > 0) {
+      return jsonResponse({ error: `No chips left: ${broke.join(", ")}. Spin the roulette first.` }, 400);
+    }
+
+    // 입장 순서대로 좌석 번호 부여 (턴 순서의 기준)
+    await Promise.all(
+      players.map((p, seat) =>
+        supabaseAdmin
+          .from("room_players")
+          .update({ seat_order: seat })
+          .eq("room_id", room_id)
+          .eq("user_id", p.user_id)
+      ),
+    );
 
     const deck = shuffle(buildDeck());
     let cursor = 0;
@@ -85,7 +129,7 @@ Deno.serve(async (req) => {
 
     await supabaseAdmin
       .from("room_players")
-      .update({ is_folded: false, street_bet: 0, acted_this_street: false, opened_card: null })
+      .update({ is_folded: false, is_all_in: false, street_bet: 0, acted_this_street: false, opened_card: null })
       .eq("room_id", room_id);
 
     const { error: roomError } = await supabaseAdmin

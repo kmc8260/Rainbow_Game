@@ -3,9 +3,12 @@ const chips = document.getElementById("chips");
 const tries = document.getElementById("try");
 
 function render() {
-  chips.textContent = allChips;
+  chips.textContent = allChips.toLocaleString();
   tries.textContent = `${spinsLeft()}/${MAX_SPINS}`; // 남은 횟수
   spinBtn.disabled = spinsLeft() <= 0;
+  document.querySelectorAll("#spin-pips i").forEach((pip, i) => {
+    pip.classList.toggle("on", i < spinsLeft());
+  });
 }
 
 spinBtn.addEventListener("click", () => {
@@ -13,6 +16,7 @@ spinBtn.addEventListener("click", () => {
 
   spinWheel(async (prize) => {
     await addPrize(prize); // 기다린 후에 값을 보냄
+    window.refreshProfileLabels();
     render();
   });
 });

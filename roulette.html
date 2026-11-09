@@ -1,81 +1,80 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
-    <title>룰렛 - RAINBOW HOLD'EM</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roulette - Rainbow Hold'em</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/main_style.css" />
+    <link rel="stylesheet" href="css/roulette_style.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="logo-title">Rainbow</div>
+          <div class="logo-sub">HOLD'EM</div>
+        </div>
+        <div class="sidebar-bar"></div>
+
+        <nav class="sidebar-nav">
+          <a href="Main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7l9-3 5 15-9 3z"/><path d="M15 5h3l3 3-3 11"/></svg>
+            Game
+          </a>
+          <a href="skin.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>
+            Skin
+          </a>
+          <a href="Mine.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg>
+            Mine
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="sidebar-account">
+            <img src="assets/프로필.png" alt="" />
+            <div class="sidebar-account-text">
+              <div class="sidebar-name" data-profile-name>-</div>
+              <div class="sidebar-chips"><span data-profile-chips>-</span> chips</div>
+            </div>
+          </div>
+          <button class="sidebar-logout" id="logout-btn">Logout</button>
+        </div>
+      </aside>
+
+      <main class="content-area roulette-area">
+        <div class="wheel-stage">
+          <img id="wheel" class="rotate-img" src="assets/룰렛1.png" alt="Roulette wheel" />
+          <img class="arrow" src="assets/화살표.png" alt="" />
+        </div>
+
+        <section class="panel spin-panel">
+          <h1 class="spin-title">Roulette</h1>
+          <p class="spin-sub">Win 100 to 800 chips.</p>
+          <div class="spin-chips">
+            <img src="assets/메인_코인_갯수.png" alt="Chips" />
+            <span id="chips">0</span>
+          </div>
+          <div>
+            <div class="spin-left">
+              <span>Spins left today</span>
+              <span id="try">5/5</span>
+            </div>
+            <div class="spin-pips" id="spin-pips"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <button class="btn btn-gold btn-block" id="spin-btn">Spin</button>
+          <a class="btn btn-secondary btn-block" href="Main.html">Back to Main</a>
+        </section>
+      </main>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
-    <script defer src="js/roulette-wheel.js"></script>
-    <script defer src="js/roulette-chips.js"></script>
-    <script defer src="js/roulette.js"></script>
-
-    <style>
-      /* 휠 회전 애니메이션 */
-      .rotate-img {
-        transition: transform 2s;
-      }
-
-      /*화살표*/
-      .arrow {
-        position: absolute;
-        top: 300px;
-        left: 720px;
-        transform: translateX(-50%);
-        width: 44px;
-      }
-      /* 뒤로 가기 */
-      .back {
-        position: absolute;
-        bottom: 100px;
-        left: 80px;
-      }
-
-      /* 돌리기 버튼 */
-      #spin-btn {
-        position: absolute;
-        top: 95px;
-        left: calc(50% - 80px);
-        width: 130px;
-        padding: 12px 0;
-        font-family: Arial, sans-serif;
-        font-size: 18px;
-        color: #ffffff;
-        background-color: #2ecc55;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-    </style>
-    <link rel="stylesheet" href="css/globale.css" />
-    <link rel="stylesheet" href="css/style1.css" />
-  </head>
-
-  <body>
-    <div class="screen">
-      <p class="RAINBOW-HOLD-EM">
-        <span class="text-wrapper">RAINBOW </span
-        ><span class="span">HOLD&#39;EM</span>
-      </p>
-      <img
-        id="wheel"
-        class="group-2 rotate-img"
-        src="assets/룰렛1.png"
-        alt="룰렛 휠"
-      />
-
-      <img class="arrow" src="assets/화살표.png" alt="화살표" />
-      <button id="spin-btn">돌리기</button>
-
-      <a class="back" href="main.html">
-        <img src="assets/뒤로가기.png" alt="메인" />
-      </a>
-
-      <img class="frame" src="assets/메인_코인_갯수.png" alt="코인" />
-      <div class="text-wrapper-2" id="chips">0</div>
-
-      <div class="text-wrapper-3" id="try">5/5</div>
-    </div>
+    <script src="js/sidebar.js"></script>
+    <script src="js/roulette-wheel.js"></script>
+    <script src="js/roulette-chips.js"></script>
+    <script src="js/roulette.js"></script>
   </body>
 </html>

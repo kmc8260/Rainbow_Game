@@ -28,6 +28,23 @@ const tableError = document.getElementById("table-error");
 const nextRoundBtn = document.getElementById("next-round-btn");
 const leaveTableBtn = document.getElementById("leave-table-btn");
 const logoutBtn = document.getElementById("logout-btn");
+const streetLabel = document.getElementById("street-label");
+const mySeat = document.getElementById("my-seat");
+const myName = document.getElementById("my-name");
+const mySeatChips = document.getElementById("my-seat-chips");
+const myTag = document.getElementById("my-tag");
+const opponentSeat = document.getElementById("opponent-seat");
+const opponentName = document.getElementById("opponent-name");
+const opponentChips = document.getElementById("opponent-chips");
+const opponentTag = document.getElementById("opponent-tag");
+const resultBadge = document.getElementById("result-badge");
+const resultTrophy = document.getElementById("result-trophy");
+const resultLeaveBtn = document.getElementById("result-leave-btn");
+const betMinusBtn = document.getElementById("bet-minus");
+const betPlusBtn = document.getElementById("bet-plus");
+
+// skin.js의 스킨 번호와 assets/card 폴더 이름
+const DECK_FOLDERS = { 1: "숫자", 2: "빵", 3: "winter" };
 
 const OPENING_BET = 50; // 서버(place-bet)의 OPENING_BET과 같은 값
 
@@ -37,6 +54,7 @@ let lastRoundId = null;
 let myHand = [];
 let nicknameMap = {};
 let roundCount = 1;
+let deckFolder = DECK_FOLDERS[1];
 let panelShown = false; // 내 턴이 새로 시작될 때만 입력칸을 최소 금액으로 채우기 위한 플래그
 
 // ============================================================
@@ -58,8 +76,28 @@ async function initTable() {
   currentUserId = session.user.id;
 
   await loadNicknames();
+  await loadDeck();
   await refreshRoom();
   subscribeToUpdates();
+}
+
+// 장착 중인 스킨의 카드 이미지를 사용
+async function loadDeck() {
+  const { data } = await supabaseClient
+    .from("profiles")
+    .select("Card_Type")
+    .eq("id", currentUserId)
+    .single();
+
+  deckFolder = DECK_FOLDERS[data?.Card_Type] ?? DECK_FOLDERS[1];
+}
+
+// value가 없으면 카드 뒷면
+function cardImg(value) {
+  const name = value === null || value === undefined ? "Back" : value;
+  const src = encodeURI(`assets/card/${deckFolder}/Card ${name}.png`);
+  const alt = name === "Back" ? "Card back" : `Card ${name}`;
+  return `<img class="card-img" src="${src}" alt="${alt}" draggable="false" />`;
 }
 
 async function loadNicknames() {
@@ -96,6 +134,14 @@ async function refreshRoom() {
     await loadMyHand(room.current_round_id);
   }
 
+  const revealedCount = (room.dealer_revealed_cards ?? []).length;
+  streetLabel.textContent =
+    room.round_status === "finished"
+      ? "Showdown"
+      : room.round_status === "opening"
+        ? "Open a card"
+        : `Card ${revealedCount} of 4`;
+
   renderDealerSlots(room);
   await renderPlayers(room);
   renderPotAndChips(room);
@@ -115,10 +161,9 @@ function renderDealerSlots(room) {
   const revealed = room.dealer_revealed_cards ?? [];
   const html = [];
   for (let i = 0; i < 4; i++) {
-    html.push(`<div class="dealer-slot">${revealed[i] ?? ""}</div>`);
+    html.push(`<div class="dealer-slot">${cardImg(revealed[i])}</div>`);
   }
   dealerSlots.innerHTML = html.join("");
-  dealerSlots.hidden = room.round_status === "finished";
 }
 
 // ============================================================
@@ -150,6 +195,7 @@ async function renderPlayers(room) {
 
   renderMySlots(room, myRow);
   renderOpponentSlots(room, opponents[0]);
+  await renderSeatInfo(room, list, myRow, opponents[0]);
 
   const extras = opponents.slice(1);
   extraOpponents.innerHTML = extras
@@ -163,6 +209,46 @@ async function renderPlayers(room) {
   updateActionPanel(room, myRow);
 }
 
+function seatTagText(player) {
+  if (!player) return "";
+  if (player.is_folded) return "Folded";
+  return player.street_bet > 0 ? `Bet ${player.street_bet.toLocaleString()}` : "";
+}
+
+async function renderSeatInfo(room, players, myRow, opponent) {
+  const { data: rows } = await supabaseClient
+    .from("profiles")
+    .select("id, chips")
+    .in("id", players.map((p) => p.user_id));
+
+  const chipsOf = (id) => {
+    const row = (rows ?? []).find((r) => r.id === id);
+    return `${(row?.chips ?? 0).toLocaleString()} chips`;
+  };
+  const isBetting = room.round_status === "betting";
+
+  myName.textContent = `${nicknameMap[currentUserId] ?? "You"} (You)`;
+  mySeatChips.textContent = chipsOf(currentUserId);
+  myTag.textContent = seatTagText(myRow);
+  mySeat.classList.toggle("is-folded", Boolean(myRow?.is_folded));
+  mySeat.classList.toggle(
+    "is-turn",
+    isBetting && room.current_turn_user_id === currentUserId,
+  );
+
+  opponentSeat.hidden = !opponent;
+  if (!opponent) return;
+
+  opponentName.textContent = nicknameMap[opponent.user_id] ?? "Player";
+  opponentChips.textContent = chipsOf(opponent.user_id);
+  opponentTag.textContent = seatTagText(opponent);
+  opponentSeat.classList.toggle("is-folded", opponent.is_folded);
+  opponentSeat.classList.toggle(
+    "is-turn",
+    isBetting && room.current_turn_user_id === opponent.user_id,
+  );
+}
+
 function renderMySlots(room, myRow) {
   const opened = myRow ? myRow.opened_card : null;
   const canSelect = room.round_status === "opening" && opened === null;
@@ -171,13 +257,13 @@ function renderMySlots(room, myRow) {
     .map((c, i) => {
       const isOpened = c === opened;
       const cls = canSelect ? "card-selectable" : isOpened ? "card-opened" : "";
-      return `<div class="seat-card-slot ${cls}" data-index="${i}">${c}</div>`;
+      return `<div class="seat-card-slot ${cls}" data-index="${i}" data-value="${c}">${cardImg(c)}</div>`;
     })
     .join("");
 
   if (canSelect) {
     myCardSlots.querySelectorAll(".card-selectable").forEach((el) => {
-      el.addEventListener("click", () => openCard(Number(el.textContent)));
+      el.addEventListener("click", () => openCard(Number(el.dataset.value)));
     });
   }
 }
@@ -197,10 +283,10 @@ function renderOpponentSlots(room, opponent) {
       opponent.opened_card !== null
     ) {
       html.push(
-        `<div class="seat-card-slot card-opened">${opponent.opened_card}</div>`,
+        `<div class="seat-card-slot card-opened">${cardImg(opponent.opened_card)}</div>`,
       );
     } else {
-      html.push(`<div class="seat-card-slot" data-slot="${i}"></div>`);
+      html.push(`<div class="seat-card-slot" data-slot="${i}">${cardImg(null)}</div>`);
     }
   }
   opponentCardSlots.innerHTML = html.join("");
@@ -255,7 +341,7 @@ function updateActionPanel(room, myRow) {
     const minBet =
       room.street_base_bet > 0 ? room.street_base_bet : OPENING_BET;
     betAmountInput.min = String(minBet);
-    betMinLabel.textContent = `Min ${minBet}`;
+    betMinLabel.textContent = `Minimum bet ${minBet.toLocaleString()}`;
 
     // 내 턴이 새로 시작됐을 때만 최소 금액으로 채움 (입력 중인 값이 실시간 갱신으로 덮어써지지 않게)
     if (!panelShown || Number(betAmountInput.value) < minBet) {
@@ -301,6 +387,8 @@ betBtn.addEventListener("click", () =>
   sendAction("bet", { amount: Number(betAmountInput.value) }),
 );
 allinBtn.addEventListener("click", () => sendAction("bet", { all_in: true }));
+betMinusBtn.addEventListener("click", () => betAmountInput.stepDown());
+betPlusBtn.addEventListener("click", () => betAmountInput.stepUp());
 
 async function openCard(cardValue) {
   tableError.textContent = "";
@@ -331,7 +419,11 @@ async function renderResult(room) {
       : "Round Over";
 
   resultRound.textContent = String(roundCount);
-  resultAmount.textContent = room.pot.toLocaleString();
+  const share = Math.floor(room.pot / Math.max(1, room.winner_ids?.length ?? 1));
+  resultAmount.textContent = iWon
+    ? `+${share.toLocaleString()}`
+    : room.pot.toLocaleString();
+  resultTrophy.hidden = !iWon;
 
   // 쇼다운: 상대 카드 공개
   const { data: hands } = await supabaseClient
@@ -339,12 +431,21 @@ async function renderResult(room) {
     .select("user_id, cards")
     .eq("round_id", room.current_round_id);
 
+  // 승자의 카드가 딜러 4장과 하나도 안 겹치면 레인보우 홀덤
+  const dealer = room.dealer_revealed_cards ?? [];
+  const winnerHand = (hands ?? []).find((h) => (room.winner_ids ?? []).includes(h.user_id));
+  resultBadge.hidden = !(
+    dealer.length === 4 &&
+    winnerHand &&
+    winnerHand.cards.every((c) => !dealer.includes(c))
+  );
+
   const opponentHand = (hands ?? []).find((h) => h.user_id !== currentUserId);
   if (opponentHand) {
     const slots = opponentCardSlots.querySelectorAll(".seat-card-slot");
     opponentHand.cards.forEach((c, i) => {
       if (slots[i]) {
-        slots[i].textContent = c;
+        slots[i].innerHTML = cardImg(c);
         slots[i].classList.add("card-opened");
       }
     });
@@ -363,7 +464,12 @@ nextRoundBtn.addEventListener("click", async () => {
   });
 
   if (error) {
-    tableError.textContent = "Failed to start next round: " + error.message;
+    let message = error.message;
+    try {
+      const body = await error.context.json();
+      if (body?.error) message = body.error;
+    } catch (_) {}
+    tableError.textContent = "Failed to start next round: " + message;
     roundCount -= 1;
   }
 
@@ -407,6 +513,10 @@ function subscribeToUpdates() {
 // ============================================================
 
 leaveTableBtn.addEventListener("click", () => {
+  window.location.href = "Main.html";
+});
+
+resultLeaveBtn.addEventListener("click", () => {
   window.location.href = "Main.html";
 });
 

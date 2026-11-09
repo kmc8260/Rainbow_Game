@@ -1,17 +1,21 @@
 /* ============================================================
    common.css
    모든 페이지가 가장 먼저 불러오는 파일.
-   1) 브라우저마다 다른 기본 스타일을 초기화(reset)
-   2) 색상/폰트 같은 디자인 값을 변수로 선언
-   다른 CSS 파일들은 아래 변수를 가져다 쓰기만 함.
+   리셋, 디자인 변수, 공통 버튼/입력칸/패널
    ============================================================ */
 
-/* ---------- 1. 리셋 ---------- */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap");
+
+/* ---------- 리셋 ---------- */
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* padding/border가 width에 포함되게 함 (레이아웃 계산 편하게) */
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 ul,
@@ -24,42 +28,245 @@ a {
   text-decoration: none;
 }
 
-button {
-  font: inherit; /* 버튼도 body 폰트를 그대로 쓰도록 */
+button,
+input {
+  font: inherit;
 }
 
-/* ---------- 2. 디자인 변수 ---------- */
+img {
+  display: block;
+}
+
+/* ---------- 디자인 변수 ---------- */
 
 :root {
-  /* 폰트 */
-  --font-heading: "Georgia", "Times New Roman", serif; /* 큰 제목용 */
-  --font-body: Arial, Helvetica, sans-serif; /* 본문/입력/버튼용 */
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: Inter, "Malgun Gothic", Arial, sans-serif;
 
-  /* 배경 */
-  --bg-page: #262626;
+  --bg-base: #101412;
+  --bg-raised: #181e1b;
+  --bg-sunken: #0b0e0d;
+  --bg-hover: #222a26;
+  --line: #2c3530;
 
-  /* 텍스트 */
-  --text-primary: #ffffff;
-  --text-secondary: #9a9a9a;
+  --text-primary: #f4f1e8;
+  --text-muted: #a3ada6;
+  --text-dim: #737d77;
+  --text-on-accent: #07180d;
 
-  /* 포인트 컬러 */
   --accent: #2ecc55;
   --accent-hover: #27b34b;
-  --accent-disabled: #1e7c37;
+  --accent-soft: #123a22;
+  --gold: #f4b73f;
+  --gold-hover: #dea431;
+  --gold-soft: #3a2d12;
+  --danger: #e5534b;
+  --danger-hover: #cf463f;
 
-  /* 상태 컬러 */
-  --danger: #ff6b6b;
+  --felt: radial-gradient(ellipse at center, #248454 0%, #0d4229 100%);
+  --rail: #2a1c12;
+  --rainbow: linear-gradient(
+    90deg,
+    #f5462d,
+    #f9a01b,
+    #f7df2c,
+    #2ecc55,
+    #1fb6f0,
+    #6a35e8,
+    #e6198b
+  );
 
-  /* 모서리 둥글기 */
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
 }
 
-/* ---------- 3. 기본 body ---------- */
+/* ---------- 기본 body ---------- */
 
 body {
   min-height: 100vh;
-  background-color: var(--bg-page);
+  background-color: var(--bg-base);
   color: var(--text-primary);
   font-family: var(--font-body);
+}
+
+/* ---------- 버튼 ---------- */
+
+.btn,
+.submit-btn,
+.leave-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    transform 0.15s;
+}
+
+.btn:active,
+.submit-btn:active,
+.leave-btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled,
+.submit-btn:disabled,
+.leave-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary,
+.submit-btn {
+  background-color: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.btn-primary:hover:not(:disabled),
+.submit-btn:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+}
+
+.btn-secondary,
+.leave-btn {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover:not(:disabled),
+.leave-btn:hover:not(:disabled) {
+  background-color: var(--line);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: var(--text-primary);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: var(--danger-hover);
+}
+
+.btn-gold {
+  background-color: var(--gold);
+  color: var(--text-on-accent);
+}
+
+.btn-gold:hover:not(:disabled) {
+  background-color: var(--gold-hover);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+:is(a, button, input):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- 입력칸 ---------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field label {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.field input {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: var(--bg-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.field input::placeholder {
+  color: var(--text-dim);
+}
+
+.field input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.field input:disabled {
+  color: var(--text-muted);
+}
+
+/* ---------- 패널 / 공통 문구 ---------- */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background-color: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+
+.panel-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.page-title {
+  font-family: var(--font-heading);
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.chip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 8px 12px;
+  background-color: var(--gold-soft);
+  border-radius: 999px;
+  color: var(--gold);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.chip-badge img {
+  width: 26px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.error-msg {
+  color: var(--danger);
+  font-size: 14px;
+}
+
+.error-msg:empty {
+  display: none;
+}
+
+.loading-text,
+.room-empty-text {
+  color: var(--text-muted);
+  font-size: 14px;
 }

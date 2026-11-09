@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Waiting Room - Rainbow Holdem</title>
+    <title>Waiting Room - Rainbow Hold'em</title>
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/main_style.css" />
     <link rel="stylesheet" href="css/lobby_style.css" />
@@ -13,59 +13,66 @@
     <div class="app-layout">
       <aside class="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-title">RAINBOW<span>HOLDEM</span></div>
+          <div class="logo-title">Rainbow</div>
+          <div class="logo-sub">HOLD'EM</div>
         </div>
+        <div class="sidebar-bar"></div>
 
         <nav class="sidebar-nav">
-          <a href="Main.html" class="nav-item">Game</a>
-          <a href="skin.html" class="nav-item">Skin</a>
-          <a href="mine.html" class="nav-item">Mine</a>
+          <a href="Main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7l9-3 5 15-9 3z"/><path d="M15 5h3l3 3-3 11"/></svg>
+            Game
+          </a>
+          <a href="skin.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>
+            Skin
+          </a>
+          <a href="Mine.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg>
+            Mine
+          </a>
         </nav>
 
         <div class="sidebar-footer">
+          <div class="sidebar-account">
+            <img src="assets/프로필.png" alt="" />
+            <div class="sidebar-account-text">
+              <div class="sidebar-name" data-profile-name>-</div>
+              <div class="sidebar-chips"><span data-profile-chips>-</span> chips</div>
+            </div>
+          </div>
           <button class="sidebar-logout" id="logout-btn">Logout</button>
         </div>
       </aside>
 
       <main class="content-area">
-        <!-- 방 정보 -->
-        <section class="lobby-panel room-header-panel">
-          <div class="room-header-row">
-            <div>
-              <h1 class="room-name" id="room-name">Loading room...</h1>
-              <p class="room-meta" id="room-meta"></p>
-            </div>
-            <div class="room-code-badge" id="room-code-badge" hidden>
-              <span class="code-label">Room Code</span>
-              <span class="code-value" id="room-code-value"></span>
-            </div>
+        <div class="page-head">
+          <h1 class="page-title" id="room-name">Loading room...</h1>
+          <div class="room-code-badge" id="room-code-badge" hidden>
+            <span class="code-label">Room Code</span>
+            <span class="code-value" id="room-code-value"></span>
           </div>
-        </section>
+        </div>
+        <p class="room-meta" id="room-meta"></p>
 
-        <!-- 참가자 목록 -->
-        <section class="lobby-panel">
-          <h2 class="lobby-panel-title">Players</h2>
-          <div class="player-grid" id="player-grid">
-            <p class="loading-text">Loading players...</p>
-          </div>
-        </section>
+        <div class="player-grid" id="player-grid">
+          <p class="loading-text">Loading players...</p>
+        </div>
 
-        <!-- 컨트롤 -->
         <section class="room-controls">
-          <button class="submit-btn" id="start-game-btn" hidden>
-            Start Game
-          </button>
-          <p class="waiting-text" id="waiting-text" hidden>
-            Waiting for the host to start the game...
-          </p>
           <button class="leave-btn" id="leave-room-btn">Leave Room</button>
           <p class="error-msg" id="room-error"></p>
+          <div class="room-start">
+            <p class="waiting-text" id="waiting-text" hidden>Waiting for the host to start the game...</p>
+            <button class="submit-btn" id="start-game-btn" hidden>Start Game</button>
+          </div>
         </section>
       </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
+    <script src="js/sidebar.js"></script>
     <script src="js/room.js"></script>
   </body>
 </html>
