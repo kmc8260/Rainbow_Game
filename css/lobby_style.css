@@ -93,6 +93,11 @@
   background-color: var(--line);
 }
 
+.room-row-join-btn:disabled {
+  color: var(--text-dim);
+  cursor: not-allowed;
+}
+
 .visibility-toggle {
   display: grid;
   grid-template-columns: 1fr 1fr;

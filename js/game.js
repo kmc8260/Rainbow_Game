@@ -201,6 +201,7 @@ async function renderRoomRow(room) {
     .select("*", { count: "exact", head: true })
     .eq("room_id", room.id);
 
+  const isFull = (count ?? 0) >= room.max_players;
   const seats = Array.from(
     { length: room.max_players },
     (_, i) => `<i class="${i < (count ?? 0) ? "on" : ""}"></i>`,
@@ -211,7 +212,7 @@ async function renderRoomRow(room) {
       <div class="room-row-name">${escapeHtml(room.room_name)}</div>
       <div class="room-row-seats">${seats}</div>
       <div class="room-row-meta">${count ?? 0} / ${room.max_players}</div>
-      <button class="room-row-join-btn" data-room-id="${room.id}">Join</button>
+      <button class="room-row-join-btn" data-room-id="${room.id}" ${isFull ? "disabled" : ""}>${isFull ? "Full" : "Join"}</button>
     </div>
   `;
 }

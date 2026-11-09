@@ -47,19 +47,41 @@
             <div class="seat-tag" id="my-tag"></div>
           </div>
 
-          <div class="seat seat-right" id="opponent-seat">
+          <div class="seat seat-top" data-opponent-seat hidden>
             <div class="seat-info">
               <img class="seat-avatar" src="assets/프로필.png" alt="" />
               <div>
-                <div class="seat-name" id="opponent-name"></div>
-                <div class="seat-chips" id="opponent-chips"></div>
+                <div class="seat-name"></div>
+                <div class="seat-chips"></div>
               </div>
             </div>
-            <div class="seat-cards" id="opponent-card-slots"></div>
-            <div class="seat-tag" id="opponent-tag"></div>
+            <div class="seat-cards"></div>
+            <div class="seat-tag"></div>
           </div>
 
-          <div class="extra-opponents" id="extra-opponents"></div>
+          <div class="seat seat-right" data-opponent-seat hidden>
+            <div class="seat-info">
+              <img class="seat-avatar" src="assets/프로필.png" alt="" />
+              <div>
+                <div class="seat-name"></div>
+                <div class="seat-chips"></div>
+              </div>
+            </div>
+            <div class="seat-cards"></div>
+            <div class="seat-tag"></div>
+          </div>
+
+          <div class="seat seat-bottom" data-opponent-seat hidden>
+            <div class="seat-info">
+              <img class="seat-avatar" src="assets/프로필.png" alt="" />
+              <div>
+                <div class="seat-name"></div>
+                <div class="seat-chips"></div>
+              </div>
+            </div>
+            <div class="seat-cards"></div>
+            <div class="seat-tag"></div>
+          </div>
         </div>
       </div>
 
@@ -92,6 +114,7 @@
             <span id="result-amount">0</span>
           </div>
           <span id="result-round" hidden>1</span>
+          <p class="result-note" id="result-note" hidden>Everyone else left the table.</p>
           <div class="result-actions">
             <button class="btn btn-secondary" id="result-leave-btn">Back to Main</button>
             <button class="submit-btn" id="next-round-btn" hidden>Next Round</button>

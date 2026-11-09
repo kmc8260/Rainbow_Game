@@ -10,9 +10,7 @@ const roundNumber = document.getElementById("round-number");
 const myChipTotal = document.getElementById("my-chip-total");
 const dealerSlots = document.getElementById("dealer-slots");
 const myCardSlots = document.getElementById("my-card-slots");
-const opponentCardSlots = document.getElementById("opponent-card-slots");
 const potAmount = document.getElementById("pot-amount");
-const extraOpponents = document.getElementById("extra-opponents");
 const resultOverlay = document.getElementById("result-overlay");
 const resultTitle = document.getElementById("result-title");
 const resultRound = document.getElementById("result-round");
@@ -33,10 +31,11 @@ const mySeat = document.getElementById("my-seat");
 const myName = document.getElementById("my-name");
 const mySeatChips = document.getElementById("my-seat-chips");
 const myTag = document.getElementById("my-tag");
-const opponentSeat = document.getElementById("opponent-seat");
-const opponentName = document.getElementById("opponent-name");
-const opponentChips = document.getElementById("opponent-chips");
-const opponentTag = document.getElementById("opponent-tag");
+const opponentSeats = Array.from(document.querySelectorAll("[data-opponent-seat]"));
+const seatTop = document.querySelector(".seat-top");
+const seatRight = document.querySelector(".seat-right");
+const seatBottom = document.querySelector(".seat-bottom");
+const resultNote = document.getElementById("result-note");
 const resultBadge = document.getElementById("result-badge");
 const resultTrophy = document.getElementById("result-trophy");
 const resultLeaveBtn = document.getElementById("result-leave-btn");
@@ -47,9 +46,14 @@ const betPlusBtn = document.getElementById("bet-plus");
 const DECK_FOLDERS = { 1: "숫자", 2: "빵", 3: "winter" };
 
 const OPENING_BET = 50; // 서버(place-bet)의 OPENING_BET과 같은 값
+const HEARTBEAT_MS = 10000; // 접속 신호 주기
+const SWEEP_MS = 20000; // 끊긴 플레이어 확인 주기
 
 let currentUserId = null;
 let isHost = false;
+let currentRoundStatus = "waiting";
+let seatedOpponents = []; // 화면에 앉아 있는 상대 [{ player, seat }]
+let leaving = false;
 let lastRoundId = null;
 let myHand = [];
 let nicknameMap = {};
@@ -79,6 +83,28 @@ async function initTable() {
   await loadDeck();
   await refreshRoom();
   subscribeToUpdates();
+  startPresence();
+}
+
+// 접속 신호를 보내고, 창을 그냥 닫은 사람이 있는지 서버에 확인 요청
+function startPresence() {
+  const beat = () => {
+    supabaseClient
+      .from("room_players")
+      .update({ last_seen_at: new Date().toISOString() })
+      .eq("room_id", roomId)
+      .eq("user_id", currentUserId)
+      .then(({ error }) => {
+        if (error) console.warn("Heartbeat failed:", error.message);
+      });
+  };
+  beat();
+  setInterval(beat, HEARTBEAT_MS);
+  setInterval(() => {
+    supabaseClient.functions.invoke("place-bet", {
+      body: { room_id: roomId, action: "sweep" },
+    });
+  }, SWEEP_MS);
 }
 
 // 장착 중인 스킨의 카드 이미지를 사용
@@ -128,6 +154,7 @@ async function refreshRoom() {
   }
 
   isHost = room.host_id === currentUserId;
+  currentRoundStatus = room.round_status;
 
   if (room.current_round_id && room.current_round_id !== lastRoundId) {
     lastRoundId = room.current_round_id;
@@ -191,22 +218,38 @@ async function renderPlayers(room) {
 
   const list = players ?? [];
   const myRow = list.find((p) => p.user_id === currentUserId);
-  const opponents = list.filter((p) => p.user_id !== currentUserId);
+  // 내가 테이블에서 빠졌으면 메인으로 (오래 끊겨서 퇴장 처리된 경우)
+  if (!myRow && !leaving) {
+    window.location.href = "Main.html";
+    return;
+  }
 
+  assignOpponentSeats(list);
   renderMySlots(room, myRow);
-  renderOpponentSlots(room, opponents[0]);
-  await renderSeatInfo(room, list, myRow, opponents[0]);
-
-  const extras = opponents.slice(1);
-  extraOpponents.innerHTML = extras
-    .map((p) => {
-      const name = nicknameMap[p.user_id] ?? "Player";
-      const status = p.is_folded ? "Folded" : `Bet: ${p.street_bet}`;
-      return `<div class="extra-opponent-card">${escapeHtml(name)}<br />${status}</div>`;
-    })
-    .join("");
+  renderOpponentSlots(room);
+  await renderSeatInfo(room, list, myRow);
 
   updateActionPanel(room, myRow);
+}
+
+// 내 다음 좌석부터 시계방향으로 상대를 배치 (나는 항상 왼쪽)
+function assignOpponentSeats(players) {
+  const myIndex = players.findIndex((p) => p.user_id === currentUserId);
+  const ordered = players.slice(myIndex + 1).concat(players.slice(0, myIndex));
+  const layout = {
+    1: [seatRight],
+    2: [seatTop, seatRight],
+    3: [seatTop, seatRight, seatBottom],
+  }[ordered.length] ?? [];
+
+  seatedOpponents = ordered.slice(0, layout.length).map((player, i) => ({
+    player,
+    seat: layout[i],
+  }));
+
+  opponentSeats.forEach((seat) => {
+    seat.hidden = !layout.includes(seat);
+  });
 }
 
 function seatTagText(player) {
@@ -215,7 +258,7 @@ function seatTagText(player) {
   return player.street_bet > 0 ? `Bet ${player.street_bet.toLocaleString()}` : "";
 }
 
-async function renderSeatInfo(room, players, myRow, opponent) {
+async function renderSeatInfo(room, players, myRow) {
   const { data: rows } = await supabaseClient
     .from("profiles")
     .select("id, chips")
@@ -236,17 +279,17 @@ async function renderSeatInfo(room, players, myRow, opponent) {
     isBetting && room.current_turn_user_id === currentUserId,
   );
 
-  opponentSeat.hidden = !opponent;
-  if (!opponent) return;
-
-  opponentName.textContent = nicknameMap[opponent.user_id] ?? "Player";
-  opponentChips.textContent = chipsOf(opponent.user_id);
-  opponentTag.textContent = seatTagText(opponent);
-  opponentSeat.classList.toggle("is-folded", opponent.is_folded);
-  opponentSeat.classList.toggle(
-    "is-turn",
-    isBetting && room.current_turn_user_id === opponent.user_id,
-  );
+  seatedOpponents.forEach(({ player, seat }) => {
+    seat.querySelector(".seat-name").textContent =
+      nicknameMap[player.user_id] ?? "Player";
+    seat.querySelector(".seat-chips").textContent = chipsOf(player.user_id);
+    seat.querySelector(".seat-tag").textContent = seatTagText(player);
+    seat.classList.toggle("is-folded", player.is_folded);
+    seat.classList.toggle(
+      "is-turn",
+      isBetting && room.current_turn_user_id === player.user_id,
+    );
+  });
 }
 
 function renderMySlots(room, myRow) {
@@ -268,28 +311,25 @@ function renderMySlots(room, myRow) {
   }
 }
 
-function renderOpponentSlots(room, opponent) {
-  if (!opponent) {
-    opponentCardSlots.innerHTML = "";
-    return;
-  }
-
-  const html = [];
-  for (let i = 0; i < 3; i++) {
-    // 선 정하기 단계에서 상대가 공개한 카드 1장은 첫 슬롯에 표시
-    if (
-      room.round_status !== "finished" &&
-      i === 0 &&
-      opponent.opened_card !== null
-    ) {
-      html.push(
-        `<div class="seat-card-slot card-opened">${cardImg(opponent.opened_card)}</div>`,
-      );
-    } else {
-      html.push(`<div class="seat-card-slot" data-slot="${i}">${cardImg(null)}</div>`);
+function renderOpponentSlots(room) {
+  seatedOpponents.forEach(({ player, seat }) => {
+    const html = [];
+    for (let i = 0; i < 3; i++) {
+      // 선 정하기 단계에서 상대가 공개한 카드 1장은 첫 슬롯에 표시
+      if (
+        room.round_status !== "finished" &&
+        i === 0 &&
+        player.opened_card !== null
+      ) {
+        html.push(
+          `<div class="seat-card-slot card-opened">${cardImg(player.opened_card)}</div>`,
+        );
+      } else {
+        html.push(`<div class="seat-card-slot" data-slot="${i}">${cardImg(null)}</div>`);
+      }
     }
-  }
-  opponentCardSlots.innerHTML = html.join("");
+    seat.querySelector(".seat-cards").innerHTML = html.join("");
+  });
 }
 
 function escapeHtml(str) {
@@ -440,18 +480,21 @@ async function renderResult(room) {
     winnerHand.cards.every((c) => !dealer.includes(c))
   );
 
-  const opponentHand = (hands ?? []).find((h) => h.user_id !== currentUserId);
-  if (opponentHand) {
-    const slots = opponentCardSlots.querySelectorAll(".seat-card-slot");
-    opponentHand.cards.forEach((c, i) => {
+  seatedOpponents.forEach(({ player, seat }) => {
+    const hand = (hands ?? []).find((h) => h.user_id === player.user_id);
+    if (!hand) return;
+    const slots = seat.querySelectorAll(".seat-card-slot");
+    hand.cards.forEach((c, i) => {
       if (slots[i]) {
         slots[i].innerHTML = cardImg(c);
         slots[i].classList.add("card-opened");
       }
     });
-  }
+  });
 
-  nextRoundBtn.hidden = !isHost;
+  const canContinue = seatedOpponents.length > 0;
+  nextRoundBtn.hidden = !isHost || !canContinue;
+  resultNote.hidden = canContinue;
 }
 
 nextRoundBtn.addEventListener("click", async () => {
@@ -512,15 +555,30 @@ function subscribeToUpdates() {
 // 나가기 / 로그아웃
 // ============================================================
 
-leaveTableBtn.addEventListener("click", () => {
-  window.location.href = "Main.html";
+// 테이블 나가기: 서버가 좌석을 비우고, 진행 중이면 다이로 처리
+async function leaveTable() {
+  const inRound = ["opening", "betting"].includes(currentRoundStatus);
+  if (inRound && !window.confirm("Leaving now counts as Die, and your bet is lost. Leave?")) {
+    return false;
+  }
+
+  leaving = true;
+  await supabaseClient.functions.invoke("place-bet", {
+    body: { room_id: roomId, action: "leave" },
+  });
+  return true;
+}
+
+leaveTableBtn.addEventListener("click", async () => {
+  if (await leaveTable()) window.location.href = "Main.html";
 });
 
-resultLeaveBtn.addEventListener("click", () => {
-  window.location.href = "Main.html";
+resultLeaveBtn.addEventListener("click", async () => {
+  if (await leaveTable()) window.location.href = "Main.html";
 });
 
 logoutBtn.addEventListener("click", async () => {
+  if (!(await leaveTable())) return;
   await supabaseClient.auth.signOut();
   window.location.href = "Login.html";
 });

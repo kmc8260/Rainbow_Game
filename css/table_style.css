@@ -230,23 +230,44 @@
   opacity: 0.45;
 }
 
-.extra-opponents {
-  position: absolute;
-  bottom: 22px;
+/* 위/아래 좌석은 가로로 작게 표시 (3~4인) */
+.seat-top,
+.seat-bottom {
+  --card-w: 44px;
   left: 50%;
-  display: flex;
-  gap: 8px;
+  top: auto;
+  flex-direction: row;
   transform: translateX(-50%);
 }
 
-.extra-opponent-card {
-  padding: 6px 14px;
-  background-color: var(--bg-sunken);
-  border-radius: 12px;
-  font-size: 12px;
-  line-height: 1.4;
-  text-align: center;
-  white-space: nowrap;
+.seat-top {
+  top: 14px;
+}
+
+.seat-bottom {
+  bottom: 14px;
+}
+
+.seat-top .seat-avatar,
+.seat-bottom .seat-avatar {
+  width: 44px;
+  height: 44px;
+}
+
+.seat-top .seat-cards,
+.seat-bottom .seat-cards {
+  gap: 5px;
+  min-height: 0;
+}
+
+.seat-top .seat-tag:empty,
+.seat-bottom .seat-tag:empty {
+  display: none;
+}
+
+.result-note {
+  color: var(--text-muted);
+  font-size: 14px;
 }
 
 /* ---------- 하단 액션 바 ---------- */
@@ -387,36 +408,43 @@
 
 @media (max-width: 860px) {
   .table-rail {
-    border-radius: 40px;
     max-height: none;
-    min-height: 620px;
+    border-radius: 40px;
   }
 
   .felt-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 12px;
     border-radius: 28px;
   }
 
+  .seat,
   .table-center {
-    transform: translate(-50%, -50%);
+    position: static;
+    transform: none;
   }
 
-  .seat {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-  }
-
-  .seat-left {
-    top: auto;
-    bottom: 16px;
+  .seat-top {
+    order: 1;
   }
 
   .seat-right {
-    top: 16px;
+    order: 2;
   }
 
-  .extra-opponents {
-    display: none;
+  .seat-bottom {
+    order: 3;
+  }
+
+  .table-center {
+    order: 4;
+  }
+
+  .seat-left {
+    order: 5;
   }
 
   .table-dock {

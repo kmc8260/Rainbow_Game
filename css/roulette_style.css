@@ -22,9 +22,9 @@
 
 .arrow {
   position: absolute;
-  top: -8px;
+  top: 1.5%;
   left: 50%;
-  width: 44px;
+  width: 6.5%;
   transform: translateX(-50%);
 }
 
