@@ -1,6 +1,6 @@
 // ============================================================
 // sidebar.js
-// data-profile-name, data-profile-chips가 붙은 곳에 내 닉네임과 칩을 표시
+// data-profile-name, data-profile-chips, data-profile-wins가 붙은 곳에 닉네임, 칩, 승리 수를 표시
 // 칩이나 닉네임이 바뀌면 window.refreshProfileLabels()를 호출
 // ============================================================
 
@@ -11,7 +11,7 @@
 
     const { data: profile, error } = await supabaseClient
       .from("profiles")
-      .select("nickname, chips")
+      .select("nickname, chips, wins")
       .eq("id", data.session.user.id)
       .single();
 
@@ -25,6 +25,9 @@
     });
     document.querySelectorAll("[data-profile-chips]").forEach((el) => {
       el.textContent = profile.chips.toLocaleString();
+    });
+    document.querySelectorAll("[data-profile-wins]").forEach((el) => {
+      el.textContent = (profile.wins ?? 0).toLocaleString();
     });
   }
 

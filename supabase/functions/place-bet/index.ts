@@ -64,13 +64,13 @@ async function loadPlayers(roomId: string) {
 async function awardPot(roomId: string, winnerId: string, pot: number) {
   const { data: winner } = await supabaseAdmin
     .from("profiles")
-    .select("chips")
+    .select("chips, wins")
     .eq("id", winnerId)
     .single();
 
   await supabaseAdmin
     .from("profiles")
-    .update({ chips: (winner?.chips ?? 0) + pot })
+    .update({ chips: (winner?.chips ?? 0) + pot, wins: (winner?.wins ?? 0) + 1 })
     .eq("id", winnerId);
 
   await supabaseAdmin
@@ -178,10 +178,10 @@ async function advanceRound(room: any, potAfter: number, fromSeat: number) {
   const payoutEach = Math.floor(potAfter / winners.length);
 
   for (const winnerId of winners) {
-    const { data: p } = await supabaseAdmin.from("profiles").select("chips").eq("id", winnerId).single();
+    const { data: p } = await supabaseAdmin.from("profiles").select("chips, wins").eq("id", winnerId).single();
     await supabaseAdmin
       .from("profiles")
-      .update({ chips: (p?.chips ?? 0) + payoutEach })
+      .update({ chips: (p?.chips ?? 0) + payoutEach, wins: (p?.wins ?? 0) + 1 })
       .eq("id", winnerId);
   }
 
